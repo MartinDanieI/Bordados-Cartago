@@ -7,78 +7,109 @@ body {
     box-sizing: border-box;
     overflow-x: hidden; /* Previene el scroll horizontal */
 }
-        /* Estilos personalizados para el efecto de superposición de texto en la imagen */
-        .hero-section {
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            height: 85vh; /* Altura completa de la ventana */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-        .hero-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -1; /* Envía el video al fondo */
-            transform: translate(-50%, -50%);
-            background-size: cover;
-        }
-        .hero-overlay {
-            background-color: rgba(0, 0, 0, 0.2); /* Oscurece ligeramente la imagen */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-       
+
+/* --- Estilos del Hero Section --- */
+.hero-section {
+    position: relative;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    overflow: hidden; /* Asegura que el video no se desborde */
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%; /* Ajusta el ancho al 100% */
+    height: 100%; /* Ajusta la altura al 100% */
+    object-fit: cover; /* Cubre todo el contenedor sin deformar */
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.hero-overlay {
+    background-color: rgba(0, 0, 0, 0.3); /* Aumenté la opacidad para mejorar la legibilidad */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
 
 .drop-shadow-lg {
-    --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0, 0, 0));
-    
+    --tw-drop-shadow: drop-shadow(0 4px 4px rgb(0 0 0 / 0.4));
 }
 
-            
-        
-        .product-card img {
-            transition: transform 0.3s ease-in-out;
-        }
-        .product-card img:hover {
-            transform: scale(1.03); /* Efecto de zoom ligero al pasar el ratón */
-        }
-        .card-container {
-  border: 2px solid black; /* Grosor, estilo y color del borde */
+/* --- Estilos de Productos --- */
+.product-card img {
+    transition: transform 0.3s ease-in-out;
 }
 
-        header {
-    position: fixed;   /* Cambiado de 'absolute' a 'fixed' */
-    top: 0;            /* Lo fija en la parte superior */
-    left: 0;           /* Lo alinea a la izquierda */
-    width: 100%;       /* Asegura que ocupe todo el ancho */
-    z-index: 1000;     /* Evita que otros elementos se pongan encima */
+.product-card img:hover {
+    transform: scale(1.03);
+}
+
+.card-container {
+    border: 2px solid black;
+}
+
+/* --- Estilos del Header --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     height: auto;
 }
 
 .header-pattern {
-    /* CAMBIA '...' POR LA RUTA DE TU IMAGEN DE FONDO */
     background-image: url('/img/Screenshot_12.png');
     background-repeat: repeat;
 }
-.clases {
-    background-image: linear-gradient(rgba(255, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/tu-imagen.png') !important;
-    background-size: cover !important;
-    background-position: center !important;
+
+/* --- Media Queries para Responsividad --- */
+
+/* Para tabletas y dispositivos más pequeños */
+@media (max-width: 1024px) {
+    .hero-section h1 {
+        font-size: 2.5rem; /* Reduce el tamaño de la fuente en el hero */
+    }
 }
+
+/* Para móviles */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 70vh; /* Reduce la altura en móviles */
+    }
+
+    .hero-section h1 {
+        font-size: 2rem; /* Fuente más pequeña para móviles */
+    }
+
+    /* Oculta la navegación de escritorio y muestra el botón de menú */
+    nav.hidden.lg\:flex {
+        display: none;
+    }
+
+    .lg\:hidden {
+        display: block; /* Asegura que el botón de hamburguesa sea visible */
+    }
+    
+    /* Ajusta las columnas de productos para móviles */
+    .grid-cols-1 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+
+
