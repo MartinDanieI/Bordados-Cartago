@@ -8,6 +8,7 @@
     "explore_selection": "Explora nuestra selección",
     "category_shirts": "Camisas",
     "category_pants": "Pantalones",
+    "category_accessories":"Accesorios",
     "men_section_title": "HOMBRES",
     "women_section_title": "MUJERES",
     "details": "Detalles",
@@ -51,6 +52,10 @@
     "w_product_5_desc": "Técnica calada en cascara de piña y plumilla.",
     "w_product_6_name": "Poncho capucha",
     "w_product_6_desc": "Tecnica bordado en cadeneta y pasado",
+    "w_product_7_name": "Blusón precolombino",
+    "w_product_7_desc": "técnica cadeneta y pasado.",
+    "w_product_8_name": "Blusón",
+    "w_product_8_desc": "técnica sesgo y patecabra.",
     "footer_sales_contact": "Contacto de Ventas",
     "footer_location": "Ubicación",
     "footer_company": "La Empresa",
@@ -69,7 +74,7 @@
     "wholesale_price_usd": "Precio Mayorista Dólares:",
     "production_capacity": "Capacidad de producción / Mes:",
     "disclaimer": "*Las fotos son imágenes de referencia, los tonos y colores pueden variar ligeramente.",
-    "add_to_cart": "Añadir al Carrito"
+    "add_to_cart": "CONTÁCTENOS"
   },
   "en": {
     "nav_men": "Men",
@@ -80,6 +85,7 @@
     "explore_selection": "Explore our selection",
     "category_shirts": "Shirts",
     "category_pants": "Pants",
+    "category_accessories":"Accessories",
     "men_section_title": "MEN",
     "women_section_title": "WOMEN",
     "details": "Details",
@@ -123,6 +129,10 @@
     "w_product_5_desc": "Pineapple peel and 'plumilla' openwork technique.",
     "w_product_6_name": "Hooded Poncho",
     "w_product_6_desc": "Chain stitch embroidery and passing technique.",
+    "w_product_7_name": "Pre-Columbian blouse",
+    "w_product_7_desc": "Chain stitch and past.",
+    "w_product_8_name": "Tunic",
+    "w_product_8_desc": "technique bias and goat path.",
     "footer_sales_contact": "Sales Contact",
     "footer_location": "Location",
     "footer_company": "The Company",
@@ -141,7 +151,7 @@
     "wholesale_price_usd": "Wholesale Price USD:",
     "production_capacity": "Production Capacity / Month:",
     "disclaimer": "*Photos are for reference, tones and colors may vary slightly.",
-    "add_to_cart": "Add to Cart"
+    "add_to_cart": "Contact us"
   },
   "it": {
     "nav_men": "Uomini",
@@ -152,6 +162,7 @@
     "explore_selection": "Esplora la nostra selezione",
     "category_shirts": "Camicie",
     "category_pants": "Pantaloni",
+    "category_accessories":"Accesori",
     "men_section_title": "UOMINI",
     "women_section_title": "DONNE",
     "details": "Dettagli",
@@ -195,6 +206,10 @@
     "w_product_5_desc": "Tecnica di traforo in buccia d'ananas e 'plumilla'.",
     "w_product_6_name": "Poncho con Cappuccio",
     "w_product_6_desc": "Tecnica di ricamo a punto catenella e passato.",
+   "w_product_7_name": "Blusa Precolombiana",
+    "w_product_7_desc": "Tecnica a punto catenella e passato.",
+    "w_product_8_name": "Tunica",
+    "w_product_8_desc": "Tecnica sbieco e 'patecabra'.",
     "footer_sales_contact": "Contatto Vendite",
     "footer_location": "Posizione",
     "footer_company": "L'Azienda",
@@ -213,7 +228,7 @@
     "wholesale_price_usd": "Prezzo all'Ingrosso USD:",
     "production_capacity": "Capacità di Produzione / Mese:",
     "disclaimer": "*Le foto sono di riferimento, le tonalità e i colori possono variare leggermente.",
-    "add_to_cart": "Aggiungi al Carrello"
+    "add_to_cart": "Contattaci"
   },
   "pt": {
     "nav_men": "Homens",
@@ -224,6 +239,7 @@
     "explore_selection": "Explore nossa seleção",
     "category_shirts": "Camisas",
     "category_pants": "Calças",
+     "category_accessories":"Acessórios",
     "men_section_title": "HOMENS",
     "women_section_title": "MULHERES",
     "details": "Detalhes",
@@ -267,6 +283,10 @@
     "w_product_5_desc": "Técnica de renda em casca de abacaxi e 'plumilla'.",
     "w_product_6_name": "Poncho com Capuz",
     "w_product_6_desc": "Técnica de bordado em ponto de cadeia e passado.",
+   "w_product_7_name": "Blusa Pré-Colombiana",
+    "w_product_7_desc": "Técnica de ponto cadeia e passado.",
+    "w_product_8_name": "Túnica",
+    "w_product_8_desc": "Técnica de viés e 'pata de cabra'.",
     "footer_sales_contact": "Contato de Vendas",
     "footer_location": "Localização",
     "footer_company": "A Empresa",
@@ -285,6 +305,6 @@
     "wholesale_price_usd": "Preço de Atacado USD:",
     "production_capacity": "Capacidade de Produção / Mês:",
     "disclaimer": "*As fotos são para referência, os tons e as cores podem variar ligeiramente.",
-    "add_to_cart": "Adicionar ao Carrinho"
+    "add_to_cart": "Entre em contato conosco"
   }
 }
