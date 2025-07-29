@@ -105,11 +105,33 @@ header {
         display: block; /* Asegura que el botón de hamburguesa sea visible */
     }
     
-    /* Ajusta las columnas de productos para móviles */
+    
     .grid-cols-1 {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 }
+
+
+        /* Custom CSS for the product-details-section to add a background image */
+        .product-details-section {
+            /* Replace 'https://placehold.co/600x400/F0F0F0/000000?text=Background+Image' with the actual path to your image */
+            background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('/img/florFondo.jpg');
+            background-size: cover; /* Ensures the image covers the entire area */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            border-radius: 0.5rem; /* Apply rounded corners to the section */
+            overflow: hidden; /* Ensures the background image respects the border-radius */
+        }
+
+        /* Ensure images within the product-image-section are responsive */
+        .product-image-section img {
+            border-radius: 0.5rem; /* Apply rounded corners to the image */
+        }
+
+        /* Style for the button */
+        button {
+            border-radius: 0.5rem; /* Apply rounded corners to the button */
+        }
 
 
 

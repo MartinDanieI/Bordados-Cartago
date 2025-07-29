@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" 
 integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1003,7 +1003,7 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
                 <ul class="space-y-3 normal-case text-gray-600">
                     <li><a href="#" class="hover:underline">Instagram</a></li>
                     <li><a href="#" class="hover:underline">Facebook</a></li>
-                    <li><a href="#" class="hover:underline">Whatsapp</a></li>
+                    <li><a href="https://api.whatsapp.com/send?phone=573154423296" class="hover:underline">Whatsapp</a></li>
                 </ul>
             </div>
 
@@ -1013,36 +1013,9 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
         </div>
     </div>
 </footer>
-               <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // --- Lógica para el MENÚ DE NAVEGACIÓN MÓVIL ---
-            const menuButton = document.getElementById('menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (menuButton && mobileMenu) {
-                menuButton.addEventListener('click', function () {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
+               
 
-            // --- Lógica para el MENÚ DE IDIOMAS MÓVIL (ya estaba en translate.js) ---
-            const langMenuButton = document.getElementById('language-menu-button');
-            const langMenu = document.getElementById('language-menu');
-            if (langMenuButton && langMenu) {
-                langMenuButton.addEventListener('click', function (event) {
-                    event.stopPropagation();
-                    langMenu.classList.toggle('hidden');
-                });
-            }
-            // Cierra el menú de idiomas si se hace clic fuera
-            document.addEventListener('click', function (event) {
-                if (langMenu && !langMenu.classList.contains('hidden') && !langMenu.contains(event.target) && !langMenuButton.contains(event.target)) {
-                    langMenu.classList.add('hidden');
-                }
-            });
-        });
-    </script>
-
-    <script src="/js/translate.js"></script>
+    <script src="/js/main.js"></script>
 
 </body>
 </html>
