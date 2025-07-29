@@ -23,7 +23,6 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
     <!-- Encabezado (Header) -->
     <header class="fixed top-0 left-0 w-full py-0 px-5 sm:px-5 header-pattern z-50 bg-white shadow-md">
     <div class="relative flex items-center justify-between h-16">
-        
 
         <div class="lg:hidden">
             <button id="menu-button" class="p-2 text-black focus:outline-none">
@@ -34,12 +33,11 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
                 </svg>
             </button>
         </div>
-        
 
         <nav class="hidden lg:flex items-center space-x-6 text-xs font-medium uppercase text-black">
-            <a href="" class="hover:text-gray-600">Hombres</a>
-            <a href="#" class="hover:text-gray-600">Mujeres</a>
-            <a href="#" class="hover:text-gray-600">Accesorios</a>
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_men">Hombres</a>
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_women">Mujeres</a>
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_accessories">Accesorios</a>
         </nav>
 
         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
@@ -49,57 +47,67 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
         </div>
 
         <div class="flex items-center space-x-4 text-xs font-medium uppercase text-black">
-            <a href="#" class="hover:text-gray-600">Iniciar Sesión</a>
-            <a href="" ><i class="fa-solid fa-cart-shopping  hover:text-gray-600"></i></a>
-        </div>
-    </div>
+            
+            <div class="relative">
+                <div class="hidden lg:flex items-center space-x-2">
+                    <button onclick="setLanguage('es')" class="font-bold hover:text-blue-600">ES</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('en')" class="font-bold hover:text-blue-600">EN</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('it')" class="font-bold hover:text-blue-600">IT</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('pt')" class="font-bold hover:text-blue-600">PT</button>
+                </div>
+                
+                <button id="language-menu-button" class="lg:hidden flex items-center space-x-1 font-bold p-2">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="current-lang-mobile">ES</span> <i class="fa-solid fa-chevron-down text-xs"></i>
+                </button>
 
-    <div id="mobile-menu" class="hidden lg:hidden">
-        <nav class="flex flex-col space-y-4 pt-2 pb-4 text-sm uppercase text-black">
-            <a href="" class="hover:text-gray-600 px-2">Hombres</a>
-            <a href="#" class="hover:text-gray-600 px-2">Mujeres</a>
-            <a href="#" class="hover:text-gray-600 px-2">Accesorios</a>
-        </nav>
+                <div id="language-menu" class="hidden absolute top-full right-0 mt-2 w-32 bg-white rounded-md shadow-lg z-20">
+                    <a href="#" onclick="setLanguage('es')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Español</a>
+                    <a href="#" onclick="setLanguage('en')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="#" onclick="setLanguage('it')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Italiano</a>
+                    <a href="#" onclick="setLanguage('pt')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Português</a>
+                </div>
+            </div>
+            <a href="#" class="hover:text-gray-600" data-i18n="login">Iniciar</a>
+            <a href=""><i class="fa-solid fa-cart-shopping hover:text-gray-600"></i></a>
+        </div>
     </div>
 </header>
 
     <!-- Sección Hero (Imagen principal con texto superpuesto) -->
-    <section class="hero-section">
+   <section class="hero-section">
+    <video autoplay loop muted playsinline class="hero-video">
+        <source src="/video/VideoPresentacionEditado.mp4" type="video/mp4">
+        Tu navegador no soporta la etiqueta de video.
+    </video>
+    <div class="hero-overlay">
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg" data-i18n="hero_title">
+            Conservando nuestra tradición y cultura a traves de nuestras prendas
+        </h1>
+    </div>
+</section>
 
-        <video autoplay loop muted playsinline class="hero-video">
-            <source src="/video/VideoPresentacionEditado.mp4"
-                type="video/mp4">
-            Tu navegador no soporta la etiqueta de video.
-        </video>
-        <div class="hero-overlay">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">conservando nuestra tradición y
-                cultura a traves de nuestras prendas</h1>
-        </div>
-    </section>
-
-       <section class="flex flex-col items-center justify-center min-h-screen p-4">
+<section class="flex flex-col items-center justify-center min-h-screen p-4">
     <div class="container mx-auto max-w-6xl">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-12" data-i18n="explore_selection">
             Explora nuestra selección
         </h1>
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-12 px-5">
-            
             <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 w-full max-w-xs mx-auto">
                 <img src="/img/camisa.png" alt="Categoría Camisas" class="w-full h-80 md:h-96 object-cover">
-                <h2 class="text-lg font-medium text-gray-700 py-3 text-center">Camisas</h2>
+                <h2 class="text-lg font-medium text-gray-700 py-3 text-center" data-i18n="category_shirts">Camisas</h2>
             </div>
-
             <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 w-full max-w-xs mx-auto">
                 <img src="/img/pantalon1.png" alt="Categoría Pantalones" class="w-full h-80 md:h-96 object-cover">
-                <h2 class="text-lg font-medium text-gray-700 py-3 text-center">Pantalones</h2>
+                <h2 class="text-lg font-medium text-gray-700 py-3 text-center" data-i18n="category_pants">Pantalones</h2>
             </div>
-
             <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 w-full max-w-xs mx-auto">
                 <img src="/img/accesorio1.png" alt="Categoría Accesorios" class="w-full h-80 md:h-96 object-cover">
-                <h2 class="text-lg font-medium text-gray-700 py-3 text-center">Accesorios</h2>
+                <h2 class="text-lg font-medium text-gray-700 py-3 text-center" data-i18n="category_accessories">Accesorios</h2>
             </div>
-
         </div>
     </div>
 </section>
@@ -111,7 +119,7 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
             Tu navegador no soporta la etiqueta de video.
         </video>
         <div class="hero-overlay">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">HOMBRES</h1>
+             <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg" data-i18n="men_section_title">HOMBRES</h1>
         </div>
     </section>
 
@@ -120,598 +128,445 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10">
 
-            <!-- Producto 1 -->
             <div class="group relative image-background-container">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen1.png" alt="Imagen de una Guayabera con calado plumilla" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover1.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2009</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="./productos.html" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_1_name">Guayabera Calado Plumilla</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_1_desc">Técnica calado plumilla. 100% Lino.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$320.000 COP</p>
+    </div>
+</div>
 
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen1.png" alt="Imagen de una Guayabera con calado plumilla"
-                        class="w-full h-full object-contain p-0">
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen2.png" alt="Imagen de una Guayabera con calado española" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover2.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2010</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover1.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2009</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_2_name">Guayabera Calado Española</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_2_desc">Técnica calado española. 100% Lino.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$320.000 COP</p>
+    </div>
+</div>
 
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="./productos.html"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen3.png" alt="Imagen de una Guayabera con calado filigrama" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover3.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2011</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
                 </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Guayabera Calado Plumilla</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica calado plumilla. 100% Lino.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$320.000 COP</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
                 </div>
             </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_3_name">Guayabera Calado Filigrama</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_3_desc">Técnica calado filigrama. 100% Lino.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$320.000 COP</p>
+    </div>
+</div>
 
-            <!-- Producto 2 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen2.png" alt="Imagen de una Guayabera con calado española"
-                        class="w-full h-full object-contain p-0">
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen4.png" alt="Imagen de una Guayabera precolombina" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover4.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2012</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover2.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2011</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
                 </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Guayabera Calado Española</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica calado española. 100% Lino.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$320.000 COP</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
                 </div>
             </div>
-            <!-- Producto 3 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen3.png" alt="Imagen de una Guayabera con calado filigrama"
-                        class="w-full h-full object-contain p-0">
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover3.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2012</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Guayabera Calado Filigrama</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica calado filigrama. 100% Lino.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$320.000 COP</p>
-                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
             </div>
-            <!-- Producto 4 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen4.png" alt="Imagen de una Guayabera precolombina"
-                        class="w-full h-full object-contain p-0">
-                </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover4.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2016</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_4_name">Guayabera Precolombina</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_4_desc">Técnica bordado cadeneta y calado.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$320.000 COP</p>
+    </div>
+</div>
 
-                    </div>
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen5.png" alt="Imagen de un Camibuso precolombino" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover5.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2013</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
                 </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Guayabera Precolombina</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica bordado cadeneta y calado.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$320.000 COP</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
                 </div>
-            </div>
-            <!-- Producto 5 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen5.png" alt="Imagen de un Camibuso precolombino"
-                        class="w-full h-full object-contain p-0">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover5.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2017</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
                 </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Camibuso Precolombino</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica bordado en cadeneta. Manga 3/4.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$350.000 COP</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
                 </div>
             </div>
-            <!-- Producto 6 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen6.png" alt="Imagen de una Blusa con técnica sesgo y patecabra"
-                        class="w-full h-full object-contain p-0">
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover6.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2019</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Blusa Sesgo y Patecabra</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica sesgo y patecabra. 100% Lino.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$480.000 COP</p>
-                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
             </div>
-            <!-- Producto 7 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen7.png" alt="Imagen de un Blusón precolombino"
-                        class="w-full h-full object-contain p-0">
-                </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover7.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2021</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Blusón Precolombino</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica cadeneta y pasado. 100% Lino.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$530.000 COP</p>
-                </div>
-            </div>
-            <!-- Producto 8 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen8.png" alt="Imagen de un Gabán con calado y bordado"
-                        class="w-full h-full object-contain p-0">
-                </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover8.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2023</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Gabán Calado y Bordado</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica calado y bordado en manzanillón.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$340.000 COP</p>
-                </div>
-            </div>
-            <!-- Producto 9 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen9.png" alt="Imagen de un Gabán con calado y bordado"
-                        class="w-full h-full object-contain p-0">
-                </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover9.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2023</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Gabán Calado y Bordado</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica calado y bordado en manzanillón.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$360.000 COP</p>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_5_name">Camibuso Precolombino</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_5_desc">Técnica bordado en cadeneta. Manga 3/4.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$350.000 COP</p>
+    </div>
+</div>
 
-    </section>
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen6.png" alt="Imagen de una Blusa con técnica sesgo y patecabra" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover6.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2014</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_6_name">Blusa Sesgo y Patecabra</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_6_desc">Técnica sesgo y patecabra. 100% Lino.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$480.000 COP</p>
+    </div>
+</div>
 
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen7.png" alt="Imagen de un Blusón precolombino" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover7.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2015</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_7_name">Blusón Precolombino</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_7_desc">Técnica cadeneta y pasado. 100% Lino.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$530.000 COP</p>
+    </div>
+</div>
+
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen8.png" alt="Imagen de un Gabán con calado y bordado" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover8.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2017</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_8_name">Gabán Calado y Bordado</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_8_desc">Técnica calado y bordado en manzanillón.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$340.000 COP</p>
+    </div>
+</div>
+
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen9.png" alt="Imagen de un Gabán con calado y bordado" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover9.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2016</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="product_9_name">Gabán Calado y Bordado</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="product_9_desc">Técnica calado y bordado en manzanillón.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$360.000 COP</p>
+    </div>
+</div>
+
+</section>
     <section class="hero-section">
 
         <video autoplay loop muted playsinline class="hero-video">
@@ -721,463 +576,363 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
             Tu navegador no soporta la etiqueta de video.
         </video>
         <div class="hero-overlay">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">MUJERES</h1>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg" data-i18n="women_section_title">MUJERES</h1>
         </div>
     </section>
     <section class="py-16 px-6 md:px-12 lg:px-24 bg-white">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10">
 
-            <!-- Producto 1 -->
-            <div class="group relative image-background-container">
+          <div class="group relative image-background-container">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen10.png" alt="Imagen de una Guayabera con calado plumilla" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover10.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2019</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="w_product_1_name">Blusa maga larga</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="w_product_1_desc">Técnica sesgo y patecabra.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$280.000 COP</p>
+    </div>
+</div>
 
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen10.png" alt="Imagen de una Guayabera con calado plumilla"
-                        class="w-full h-full object-contain p-0">
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen12.png" alt="Imagen de una Guayabera con calado española" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover12.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2023</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover10.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2009</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="w_product_2_name">Gabán</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="w_product_2_desc">Técnica calado y bordado en manzanillo.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$295.000 COP</p>
+    </div>
+</div>
 
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12">
-                                <span class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen13.png" alt="Imagen de una Guayabera con calado filigrama" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover13.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2020</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
                 </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Blusa maga larga</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica sesgo y patecabra.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$280.000 COP</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
                 </div>
             </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="w_product_3_name">Blusón</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="w_product_3_desc">Técnica sesgo y patecabra.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$185.000 COP</p>
+    </div>
+</div>
 
-            <!-- Producto 2 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen12.png" alt="Imagen de una Guayabera con calado española"
-                        class="w-full h-full object-contain p-0">
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen14.png" alt="Imagen de una Guayabera precolombina" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover14.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2022</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover12.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2011</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
                 </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Gabán</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica calado y bordado en manzanillo.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$295.000 COP</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
                 </div>
             </div>
-            <!-- Producto 3 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen13.png" alt="Imagen de una Guayabera con calado filigrama"
-                        class="w-full h-full object-contain p-0">
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover13.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2012</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Blusón</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica sesgo y patecabra.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$185.000 COP</p>
-                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
             </div>
-            <!-- Producto 4 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen14.png" alt="Imagen de una Guayabera precolombina"
-                        class="w-full h-full object-contain p-0">
-                </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover14.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2016</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="w_product_4_name">Blusa camisera en flores</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="w_product_4_desc">Técnica bordado rococo.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$240.000 COP</p>
+    </div>
+</div>
 
-                    </div>
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen15.png" alt="Imagen de un Camibuso precolombino" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover15.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2026</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
                 </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Blusa camisera en flores</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica bordado rococo.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$240.000 COP</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
                 </div>
-            </div>
-            <!-- Producto 5 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen15.png" alt="Imagen de un Camibuso precolombino"
-                        class="w-full h-full object-contain p-0">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover15.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2017</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
                 </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Chalina cuadrada</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Técnica calada en cascara de piña y plumilla.</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$180.000 COP</p>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
                 </div>
             </div>
-            <!-- Producto 6 -->
-            <div class="group relative">
-                <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                    <img src="/img/imagen16.png" alt="Imagen de una Blusa con técnica sesgo y patecabra"
-                        class="w-full h-full object-contain p-0">
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
                 </div>
-                <div
-                    class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                    <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                        <img src="/img/imagenHover16.png" alt="Vista detallada del producto"
-                            class="w-full h-full object-contain p-1">
-                    </div>
-                    <h4 class="font-bold text-sm uppercase text-gray-800">Detalles</h4>
-                    <p class="text-xs mt-2 text-gray-700"><b>Código:</b> 2019</p>
-                    <p class="text-xs mt-1 text-gray-700"><b>Tallas:</b> S, M, L, XL</p>
-                    <div class="w-full mt-2">
-                        <p class="text-xs text-gray-700 font-bold">Colores:</p>
-                        <div class="flex justify-center items-start space-x-1 mt-1">
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #D3C5B8;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Beige</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #6B8E23;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Militar</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #FF7F50;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Coral</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #48D1CC;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Agua</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #F5DEB3;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">Amarillo</p>
-                            </div>
-                            <div class="flex flex-col items-center w-12"><span
-                                    class="block w-6 h-6 rounded-full border border-gray-400"
-                                    style="background-color: #A2D4AB;"></span>
-                                <p class="text-[10px] mt-1 text-gray-600 leading-tight">V. Claro</p>
-                            </div>
-                        </div>
-                        <div class="w-full mt-2">
-                            <p class="text-xs text-gray-700 font-bold"></p>
-                            <div class="flex justify-center items-start space-x-1 mt-1">
-                            </div>
-                            <a href="https://bordadosflor.com/"
-                                class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2">Más
-                                Información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 text-left">
-                    <h3 class="text-sm font-semibold uppercase text-gray-900">Poncho capucha</h3>
-                    <p class="text-xs text-gray-600 mt-1 normal-case">Tecnica bordado en cadeneta y pasado</p>
-                    <p class="text-sm font-bold mt-1 text-black-600">$190.000 COP</p>
-                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
             </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="w_product_5_name">Chalina cuadrada</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="w_product_5_desc">Técnica calada en cascara de piña y plumilla.</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$180.000 COP</p>
+    </div>
+</div>
 
-    </section>
-    
+<div class="group relative">
+    <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+        <img src="/img/imagen16.png" alt="Imagen de una Blusa con técnica sesgo y patecabra" class="w-full h-full object-contain p-0">
+    </div>
+    <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+        <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+            <img src="/img/imagenHover16.png" alt="Vista detallada del producto" class="w-full h-full object-contain p-1">
+        </div>
+        <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+        <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> 2026</p>
+        <p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> S, M, L, XL</p>
+        <div class="w-full mt-2">
+            <p class="text-xs text-gray-700 font-bold" data-i18n="colors">Colores:</p>
+            <div class="flex justify-center items-start space-x-1 mt-1">
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #D3C5B8;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_beige">Beige</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #6B8E23;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vmilitar">V. Militar</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #FF7F50;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_coral">Coral</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #48D1CC;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vagua">V. Agua</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #F5DEB3;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_amarillo">Amarillo</p>
+                </div>
+                <div class="flex flex-col items-center w-12"><span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: #A2D4AB;"></span>
+                    <p class="text-[10px] mt-1 text-gray-600 leading-tight" data-i18n="color_vclaro">V. Claro</p>
+                </div>
+            </div>
+            <div class="w-full mt-2">
+                <p class="text-xs text-gray-700 font-bold"></p>
+                <div class="flex justify-center items-start space-x-1 mt-1">
+                </div>
+                <a href="https://bordadosflor.com/" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-left">
+        <h3 class="text-sm font-semibold uppercase text-gray-900" data-i18n="w_product_6_name">Poncho capucha</h3>
+        <p class="text-xs text-gray-600 mt-1 normal-case" data-i18n="w_product_6_desc">Tecnica bordado en cadeneta y pasado</p>
+        <p class="text-sm font-bold mt-1 text-black-600">$190.000 COP</p>
+    </div>
+    </div>
+
+
+
+    </section>
 
 
 
             <!-- Footer -->
             <footer class="bg-white border-t border-gray-200 mt-16">
-                <div class="container mx-auto px-6 py-12">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs uppercase">
-                        <div>
-                            <h4 class="font-bold mb-4">Contacto de Ventas</h4>
-                            <div class="space-y-3 normal-case text-gray-600">
-                                <p>Harold Eduardo Bonilla V.<br>315 442 3296</p>
-                                <p>Flor Libia Ruiz<br>311 623 5096</p>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold mb-4">Ubicación</h4>
-                            <p class="normal-case text-gray-600">Cra 5 #7-87<br>Cartago Valle, Colombia</p>
-                        </div>
-                        <div>
-                            <h4 class="font-bold mb-4">La Empresa</h4>
-                            <ul class="space-y-3 normal-case text-gray-600">
-                                <li><a href="#" class="hover:underline">Nuestra Historia</a></li>
-                                <li><a href="#" class="hover:underline">Artesanías de Colombia</a></li>
-                                <li><a href="https://bordadosflor.com/" target="_blank"
-                                        class="hover:underline">bordadosflor.com</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-bold mb-4">Conecta</h4>
-                            <ul class="space-y-3 normal-case text-gray-600">
-                                <li><a href="#" class="hover:underline">Instagram</a></li>
-                                <li><a href="#" class="hover:underline">Facebook</a></li>
-                                <li><a href="#" class="hover:underline">Whatsapp</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-200">
-                        <p>© 2025 FLOR BORDADOS Y CALADOS</p>
-                    </div>
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs uppercase">
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_sales_contact">Contacto de Ventas</h4>
+                <div class="space-y-3 normal-case text-gray-600">
+                    <p>Harold Eduardo Bonilla V.<br>315 442 3296</p>
+                    <p>Flor Libia Ruiz<br>311 623 5096</p>
                 </div>
-            </footer>
-            <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const menuButton = document.getElementById('menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+            </div>
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_location">Ubicación</h4>
+                <p class="normal-case text-gray-600">Cra 5 #7-87<br>Cartago Valle, Colombia</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_company">La Empresa</h4>
+                <ul class="space-y-3 normal-case text-gray-600">
+                    <li><a href="#" class="hover:underline" data-i18n="footer_our_history">Nuestra Historia</a></li>
+                    <li><a href="#" class="hover:underline" data-i18n="footer_crafts">Artesanías de Colombia</a></li>
+                    <li><a href="https://bordadosflor.com/" target="_blank" class="hover:underline">bordadosflor.com</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_connect">Conecta</h4>
+                <ul class="space-y-3 normal-case text-gray-600">
+                    <li><a href="#" class="hover:underline">Instagram</a></li>
+                    <li><a href="#" class="hover:underline">Facebook</a></li>
+                    <li><a href="#" class="hover:underline">Whatsapp</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-200">
+            <p data-i18n="footer_copyright">© 2025 FLOR BORDADOS Y CALADOS</p>
+        </div>
+    </div>
+</footer>
+             <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-        menuButton.addEventListener('click', function () {
-            // Alterna la clase 'hidden' para mostrar u ocultar el menú
-            mobileMenu.classList.toggle('hidden');
+            menuButton.addEventListener('click', function () {
+                // Alterna la clase 'hidden' para mostrar u ocultar el menú
+                mobileMenu.classList.toggle('hidden');
+            });
         });
-    });
-</script>
+    </script>
+
+    <script src="/js/translate.js"></script>
 
 </body>
-
 </html>

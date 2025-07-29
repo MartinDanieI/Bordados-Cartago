@@ -20,9 +20,8 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
 </head>
 <body class="bg-gray-100">
 
-     <header class="fixed top-0 left-0 w-full py-0 px-5 sm:px-5 header-pattern z-50 bg-white shadow-md">
+    <header class="fixed top-0 left-0 w-full py-0 px-5 sm:px-5 header-pattern z-50 bg-white shadow-md">
     <div class="relative flex items-center justify-between h-16">
-        
 
         <div class="lg:hidden">
             <button id="menu-button" class="p-2 text-black focus:outline-none">
@@ -33,12 +32,11 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
                 </svg>
             </button>
         </div>
-        
 
         <nav class="hidden lg:flex items-center space-x-6 text-xs font-medium uppercase text-black">
-            <a href="" class="hover:text-gray-600">Hombres</a>
-            <a href="#" class="hover:text-gray-600">Mujeres</a>
-            <a href="#" class="hover:text-gray-600">Accesorios</a>
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_men">Hombres</a>
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_women">Mujeres</a>
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_accessories">Accesorios</a>
         </nav>
 
         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
@@ -48,120 +46,110 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
         </div>
 
         <div class="flex items-center space-x-4 text-xs font-medium uppercase text-black">
-            <a href="#" class="hover:text-gray-600">Iniciar Sesión</a>
-            <a href="" ><i class="fa-solid fa-cart-shopping  hover:text-gray-600"></i></a>
-        </div>
-    </div>
+            
+            <div class="relative">
+                <div class="hidden lg:flex items-center space-x-2">
+                    <button onclick="setLanguage('es')" class="font-bold hover:text-blue-600">ES</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('en')" class="font-bold hover:text-blue-600">EN</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('it')" class="font-bold hover:text-blue-600">IT</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('pt')" class="font-bold hover:text-blue-600">PT</button>
+                </div>
+                
+                <button id="language-menu-button" class="lg:hidden flex items-center space-x-1 font-bold p-2">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="current-lang-mobile">ES</span> <i class="fa-solid fa-chevron-down text-xs"></i>
+                </button>
 
-    <div id="mobile-menu" class="hidden lg:hidden">
-        <nav class="flex flex-col space-y-4 pt-2 pb-4 text-sm uppercase text-black">
-            <a href="" class="hover:text-gray-600 px-2">Hombres</a>
-            <a href="#" class="hover:text-gray-600 px-2">Mujeres</a>
-            <a href="#" class="hover:text-gray-600 px-2">Accesorios</a>
-        </nav>
+                <div id="language-menu" class="hidden absolute top-full right-0 mt-2 w-32 bg-white rounded-md shadow-lg z-20">
+                    <a href="#" onclick="setLanguage('es')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Español</a>
+                    <a href="#" onclick="setLanguage('en')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="#" onclick="setLanguage('it')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Italiano</a>
+                    <a href="#" onclick="setLanguage('pt')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Português</a>
+                </div>
+            </div>
+            <a href="#" class="hover:text-gray-600" data-i18n="login">Iniciar</a>
+            <a href=""><i class="fa-solid fa-cart-shopping hover:text-gray-600"></i></a>
+        </div>
     </div>
 </header>
 
-    <main class="max-w-7xl mx-auto pt-24 px-4 sm:px-6 lg:px-8">
-        <div class="product-container grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 bg-white rounded-lg shadow-lg overflow-hidden p-4 lg:p-0">
-
-            <div class="product-image-section">
-                <img src="/img/imagen1.png" alt="Guayabera Elegante vista completa" class="w-full h-full object-cover">
+   <main class="max-w-7xl mx-auto pt-24 px-4 sm:px-6 lg:px-8">
+    <div class="product-container grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 bg-white rounded-lg shadow-lg overflow-hidden p-4 lg:p-0">
+        <div class="product-image-section">
+            <img src="/img/imagen1.png" alt="Guayabera Elegante vista completa" class="w-full h-full object-cover">
+        </div>
+        <div class="product-details-section flex flex-col p-4 lg:p-8">
+            <div class="mb-6">
+                <img src="/img/imagenHover1.png" alt="Detalle del bordado de la guayabera" class="w-full h-auto object-cover rounded-md shadow-sm">
             </div>
-
-            <div class="product-details-section flex flex-col p-4 lg:p-8">
-                
+            <div>
                 <div class="mb-6">
-                    <img src="/img/imagenHover1.png" alt="Detalle del bordado de la guayabera" class="w-full h-auto object-cover rounded-md shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2" data-i18n="product_elegant_guayabera_title">Guayabera Elegante</h2>
+                    <p class="text-sm text-gray-600"><span data-i18n="code">Código:</span> <span class="font-semibold">2009</span></p>
+                    <p class="text-sm text-gray-600"><span data-i18n="sizes">Tallas:</span> <span class="font-semibold">S M L XL</span></p>
+                    <p class="text-sm text-gray-600"><span data-i18n="fabric">Tela:</span> <span class="font-semibold">100% Lino</span></p>
                 </div>
 
-                <div>
-                    <div class="mb-6">
-                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Guayabera Elegante</h2>
-                        <p class="text-sm text-gray-600">Código: <span class="font-semibold">2009</span></p>
-                        <p class="text-sm text-gray-600">Tallas: <span class="font-semibold">S M L XL</span></p>
-                        <p class="text-sm text-gray-600">Tela: <span class="font-semibold">100% Lino</span></p>
-                    </div>
-
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Descripción:</h3>
-                        <p class="text-gray-700 text-sm leading-relaxed">
-                            Guayabera manga larga / manga corta técnica calado plumilla.
-                            Diseño clásico con detalles modernos, perfecta para cualquier ocasión formal o casual.
-                            Confeccionada con lino de alta calidad para máxima comodidad y transpirabilidad.
-                        </p>
-                    </div>
-
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Precios:</h3>
-                        <p class="text-gray-700 text-sm">Precio Público: <span class="font-bold text-green-600">$320.000</span></p>
-                        <p class="text-gray-700 text-sm">Precio Mayorista: <span class="font-bold text-blue-600">$256.000</span></p>
-                        <p class="text-gray-700 text-sm mt-2">Precio Público Dólares: <span class="font-bold">$80</span></p>
-                        <p class="text-gray-700 text-sm">Precio Mayorista Dólares: <span class="font-bold">$63</span></p>
-                        <p class="text-gray-700 text-sm mt-2">Capacidad de producción / Mes: <span class="font-bold">100 und</span></p>
-                    </div>
-
-                    <div class="mb-6">
-    <h3 class="text-lg font-semibold text-gray-800 mb-2">Colores:</h3>
-    <div class="flex flex-wrap gap-3">
-        
-      <div class="color-option flex flex-col items-center text-center w-14">
-    
-    <span style="background-color: #D3C5B8;" 
-          class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200">
-    </span>
-    
-    <span class="text-xs text-gray-600 mt-1">Beige</span>
-
-</div>
-
-       <div class="color-option flex flex-col items-center text-center w-14">
-    <span style="background-color: #6B8E23;"
-          class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200">
-    </span>
-    <span class="text-xs text-gray-600 mt-1">V. Militar</span>
-</div>
-
-<div class="color-option flex flex-col items-center text-center w-14">
-    <span style="background-color: #FF7F50;"
-          class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200">
-    </span>
-    <span class="text-xs text-gray-600 mt-1">Coral</span>
-</div>
-
-<div class="color-option flex flex-col items-center text-center w-14">
-    <span style="background-color: #48D1CC;"
-          class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200">
-    </span>
-    <span class="text-xs text-gray-600 mt-1">V. Agua</span>
-</div>
-
-<div class="color-option flex flex-col items-center text-center w-14">
-    <span style="background-color: #F5DEB3;"
-          class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200">
-    </span>
-    <span class="text-xs text-gray-600 mt-1">Amarillo</span>
-</div>
-
-<div class="color-option flex flex-col items-center text-center w-14">
-    <span style="background-color: #A2D4AB;"
-          class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200">
-    </span>
-    <span class="text-xs text-gray-600 mt-1">V. Claro</span>
-</div>
-
-    </div>
-    <p class="text-xs text-gray-500 mt-4">
-        *Las fotos son imágenes de referencia, los tonos y colores pueden variar ligeramente.
-    </p>
-</div>
-                    <button class="bg-gray-900 text-white py-3 px-6 rounded-md font-semibold hover:bg-gray-800 transition-colors duration-300 w-full lg:w-auto">
-                        Añadir al Carrito <i class="fa-solid fa-cart-shopping"></i>
-                    </button>
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="description">Descripción:</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed" data-i18n="product_elegant_guayabera_desc">
+                        Guayabera manga larga / manga corta técnica calado plumilla.
+                        Diseño clásico con detalles modernos, perfecta para cualquier ocasión formal o casual.
+                        Confeccionada con lino de alta calidad para máxima comodidad y transpirabilidad.
+                    </p>
                 </div>
+
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="prices">Precios:</h3>
+                    <p class="text-gray-700 text-sm"><span data-i18n="public_price">Precio Público:</span> <span class="font-bold text-green-600">$320.000</span></p>
+                    <p class="text-gray-700 text-sm"><span data-i18n="wholesale_price">Precio Mayorista:</span> <span class="font-bold text-blue-600">$256.000</span></p>
+                    <p class="text-gray-700 text-sm mt-2"><span data-i18n="public_price_usd">Precio Público Dólares:</span> <span class="font-bold">$80</span></p>
+                    <p class="text-gray-700 text-sm"><span data-i18n="wholesale_price_usd">Precio Mayorista Dólares:</span> <span class="font-bold">$63</span></p>
+                    <p class="text-gray-700 text-sm mt-2"><span data-i18n="production_capacity">Capacidad de producción / Mes:</span> <span class="font-bold">100 und</span></p>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="colors">Colores:</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="color-option flex flex-col items-center text-center w-14">
+                            <span style="background-color: #D3C5B8;" class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200"></span>
+                            <span class="text-xs text-gray-600 mt-1" data-i18n="color_beige">Beige</span>
+                        </div>
+                        <div class="color-option flex flex-col items-center text-center w-14">
+                            <span style="background-color: #6B8E23;" class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200"></span>
+                            <span class="text-xs text-gray-600 mt-1" data-i18n="color_vmilitar">V. Militar</span>
+                        </div>
+                        <div class="color-option flex flex-col items-center text-center w-14">
+                            <span style="background-color: #FF7F50;" class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200"></span>
+                            <span class="text-xs text-gray-600 mt-1" data-i18n="color_coral">Coral</span>
+                        </div>
+                        <div class="color-option flex flex-col items-center text-center w-14">
+                            <span style="background-color: #48D1CC;" class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200"></span>
+                            <span class="text-xs text-gray-600 mt-1" data-i18n="color_vagua">V. Agua</span>
+                        </div>
+                        <div class="color-option flex flex-col items-center text-center w-14">
+                            <span style="background-color: #F5DEB3;" class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200"></span>
+                            <span class="text-xs text-gray-600 mt-1" data-i18n="color_amarillo">Amarillo</span>
+                        </div>
+                        <div class="color-option flex flex-col items-center text-center w-14">
+                            <span style="background-color: #A2D4AB;" class="block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200"></span>
+                            <span class="text-xs text-gray-600 mt-1" data-i18n="color_vclaro">V. Claro</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4" data-i18n="disclaimer">
+                        *Las fotos son imágenes de referencia, los tonos y colores pueden variar ligeramente.
+                    </p>
+                </div>
+                <button class="bg-gray-900 text-white py-3 px-6 rounded-md font-semibold hover:bg-gray-800 transition-colors duration-300 w-full lg:w-auto">
+                    <span data-i18n="add_to_cart">Añadir al Carrito</span> <i class="fa-solid fa-cart-shopping"></i>
+                </button>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
    <script>
     // Espera a que todo el HTML esté cargado
@@ -179,40 +167,54 @@ integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O
 </script>
 </body>
  <footer class="bg-white border-t border-gray-200 mt-16">
-                <div class="container mx-auto px-6 py-12">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs uppercase">
-                        <div>
-                            <h4 class="font-bold mb-4">Contacto de Ventas</h4>
-                            <div class="space-y-3 normal-case text-gray-600">
-                                <p>Harold Eduardo Bonilla V.<br>315 442 3296</p>
-                                <p>Flor Libia Ruiz<br>311 623 5096</p>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold mb-4">Ubicación</h4>
-                            <p class="normal-case text-gray-600">Cra 5 #7-87<br>Cartago Valle, Colombia</p>
-                        </div>
-                        <div>
-                            <h4 class="font-bold mb-4">La Empresa</h4>
-                            <ul class="space-y-3 normal-case text-gray-600">
-                                <li><a href="#" class="hover:underline">Nuestra Historia</a></li>
-                                <li><a href="#" class="hover:underline">Artesanías de Colombia</a></li>
-                                <li><a href="https://bordadosflor.com/" target="_blank"
-                                        class="hover:underline">bordadosflor.com</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-bold mb-4">Conecta</h4>
-                            <ul class="space-y-3 normal-case text-gray-600">
-                                <li><a href="#" class="hover:underline">Instagram</a></li>
-                                <li><a href="#" class="hover:underline">Facebook</a></li>
-                                <li><a href="#" class="hover:underline">Whatsapp</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-200">
-                        <p>© 2025 FLOR BORDADOS Y CALADOS</p>
-                    </div>
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs uppercase">
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_sales_contact">Contacto de Ventas</h4>
+                <div class="space-y-3 normal-case text-gray-600">
+                    <p>Harold Eduardo Bonilla V.<br>315 442 3296</p>
+                    <p>Flor Libia Ruiz<br>311 623 5096</p>
                 </div>
-            </footer>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_location">Ubicación</h4>
+                <p class="normal-case text-gray-600">Cra 5 #7-87<br>Cartago Valle, Colombia</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_company">La Empresa</h4>
+                <ul class="space-y-3 normal-case text-gray-600">
+                    <li><a href="#" class="hover:underline" data-i18n="footer_our_history">Nuestra Historia</a></li>
+                    <li><a href="#" class="hover:underline" data-i18n="footer_crafts">Artesanías de Colombia</a></li>
+                    <li><a href="https://bordadosflor.com/" target="_blank" class="hover:underline">bordadosflor.com</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_connect">Conecta</h4>
+                <ul class="space-y-3 normal-case text-gray-600">
+                    <li><a href="#" class="hover:underline">Instagram</a></li>
+                    <li><a href="#" class="hover:underline">Facebook</a></li>
+                    <li><a href="#" class="hover:underline">Whatsapp</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-200">
+            <p data-i18n="footer_copyright">© 2025 FLOR BORDADOS Y CALADOS</p>
+        </div>
+    </div>
+</footer>
+             <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            menuButton.addEventListener('click', function () {
+                // Alterna la clase 'hidden' para mostrar u ocultar el menú
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+
+    <script src="/js/translate.js"></script>
+
+</body>
 </html>
