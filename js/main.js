@@ -1,24 +1,108 @@
-// js/main.js - VERSIÓN FINAL Y DEFINITIVA
-
 document.addEventListener('DOMContentLoaded', async () => {
-    
-    // --- LÓGICA DE TRADUCCIÓN Y MENÚS (Tu código original) ---
+
+    // --- LÓGICA DE TRADUCCIÓN ---
     let translations = {};
     try {
         const response = await fetch('/lang/translations.json');
         translations = await response.json();
-    } catch (error) { console.error('Error cargando traducciones:', error); }
+    } catch (error) {
+        console.error('Error cargando traducciones:', error);
+    }
 
-    const setLanguage = (language) => { /* ... (código de traducción sin cambios) ... */ };
+    const setLanguage = (language) => {
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[language] && translations[language][key]) {
+                el.innerText = translations[language][key];
+            }
+        });
+    };
     window.setLanguage = setLanguage;
 
+    // --- MENÚ RESPONSIVO ---
     const menuButton = document.getElementById('menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    /* ... (resto del código de menús sin cambios) ... */
-    
-    // ================================================
-    // 3. LÓGICA PARA CARGAR PRODUCTOS (CON EL LECTOR CORRECTO)
-    // ================================================
+    if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+
+    // --- PARSEADOR DE FRONTMATTER PERSONALIZADO ---
+    function parseFrontMatter(content) {
+        const data = {};
+        const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+        if (!frontMatterMatch) return data;
+
+        const frontMatter = frontMatterMatch[1];
+        const lines = frontMatter.split('\n');
+
+        let currentList = null;
+        let currentItem = null;
+
+        data.colors = [];
+        data.sizes = [];
+
+        lines.forEach(line => {
+            const trimmed = line.trim();
+
+            if (trimmed === '') return;
+
+            // Clave: valor
+            const keyVal = trimmed.match(/^([a-zA-Z_]+):\s*(.*)$/);
+            if (keyVal && !trimmed.startsWith('-')) {
+                const key = keyVal[1];
+                const val = keyVal[2];
+
+                if (val === '') {
+                    // Es lista
+                    currentList = key;
+                    if (!data[currentList]) data[currentList] = [];
+                } else {
+                    data[key] = val.replace(/"/g, '');
+                    currentList = null;
+                }
+            }
+
+            // Elemento de lista
+            else if (trimmed.startsWith('-')) {
+                const listLine = trimmed.slice(1).trim();
+
+                if (currentList === 'sizes') {
+                    data.sizes.push(listLine);
+                }
+
+                else if (currentList === 'colors') {
+                    currentItem = {};
+                    data.colors.push(currentItem);
+
+                    const [key, ...valueParts] = listLine.split(':');
+                    if (key && valueParts.length) {
+                        let value = valueParts.join(':').trim();
+                        if (key.trim() === 'hex' && !value.startsWith('#')) {
+                            value = '#' + value;
+                        }
+                        currentItem[key.trim()] = value;
+                    }
+                }
+            }
+
+            // Propiedad interna de un color
+            else if (currentList === 'colors' && currentItem && trimmed.includes(':')) {
+                const [key, ...valueParts] = trimmed.split(':');
+                let value = valueParts.join(':').trim();
+                if (key.trim() === 'hex' && !value.startsWith('#')) {
+                    value = '#' + value;
+                }
+                currentItem[key.trim()] = value;
+            }
+        });
+
+        return data;
+    }
+
+    // --- CARGA DE PRODUCTOS ---
     async function cargarProductos() {
         const apiURL = '/.netlify/functions/getProducts';
         try {
@@ -38,79 +122,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productResponse = await fetch(file.download_url);
                 const productContent = await productResponse.text();
 
-                // --- FUNCIÓN DE LECTURA HECHA A LA MEDIDA ---
-               function parseFrontMatter(content) {
-    const data = {};
-    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
-    if (!frontMatterMatch) return data;
-    const frontMatter = frontMatterMatch[1];
-    const lines = frontMatter.split('\n');
-
-    let currentList = null;
-    let lastColorObject = null;
-
-    data.colors = [];
-    data.sizes = [];
-
-    lines.forEach(line => {
-        const trimmedLine = line.trim();
-        if (trimmedLine === '') return;
-
-        // Clave-valor directo
-        const keyMatch = trimmedLine.match(/^([a-zA-Z_]+):(.*)/);
-        if (keyMatch && !trimmedLine.startsWith('-')) {
-            const key = keyMatch[1].trim();
-            const value = keyMatch[2].trim();
-            if (value) {
-                data[key] = value.replace(/"/g, '');
-                currentList = null;
-            } else {
-                currentList = key;
-                data[currentList] = [];
-            }
-        }
-
-        // Elemento de lista (colores o tallas)
-        else if (trimmedLine.startsWith('-')) {
-            if (currentList === 'sizes') {
-                // Tallas simples
-                const sizeValue = trimmedLine.substring(1).trim();
-                if (sizeValue) data.sizes.push(sizeValue);
-            } else if (currentList === 'colors') {
-                // Puede ser objeto o línea con clave-valor
-                const rest = trimmedLine.substring(1).trim();
-                lastColorObject = {};
-                data.colors.push(lastColorObject);
-
-                if (rest.includes(':')) {
-                    const [key, ...valParts] = rest.split(':');
-                    let value = valParts.join(':').trim();
-                    if (key.trim() === 'hex' && !value.startsWith('#')) {
-                        value = '#' + value;
-                    }
-                    lastColorObject[key.trim()] = value;
-                }
-            }
-        }
-
-        // Propiedad interna de un color
-        else if (currentList === 'colors' && lastColorObject && trimmedLine.includes(':')) {
-            const [key, ...valParts] = trimmedLine.split(':');
-            let value = valParts.join(':').trim();
-            if (key.trim() === 'hex' && !value.startsWith('#')) {
-                value = '#' + value;
-            }
-            lastColorObject[key.trim()] = value;
-        }
-    });
-
-    return data;
-}
-
                 const productData = parseFrontMatter(productContent);
-                
-                let sizesHTML = `<p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> ${productData.sizes ? productData.sizes.join(', ') : 'N/A'}</p>`;
-                
+
+                // Tallas
+                const sizesHTML = `<p class="text-xs mt-1 text-gray-700"><b data-i18n="sizes">Tallas:</b> ${productData.sizes ? productData.sizes.join(', ') : 'N/A'}</p>`;
+
+                // Colores
                 let colorsHTML = '';
                 if (productData.colors && productData.colors.length > 0) {
                     colorsHTML = `
@@ -159,7 +176,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     contenedorMujeres.innerHTML += productCardHTML;
                 }
             }
+
             setLanguage(localStorage.getItem('language') || 'es');
+
         } catch (error) {
             console.error("Error definitivo al cargar productos:", error);
         }
@@ -169,4 +188,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     const savedLanguage = localStorage.getItem('language') || 'es';
     setLanguage(savedLanguage);
     await cargarProductos();
+
 });
