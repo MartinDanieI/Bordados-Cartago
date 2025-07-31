@@ -16,23 +16,23 @@ collections:
     folder: "_productos"
     create: true
     slug: "{{slug}}"
-    fields: # REEMPLAZA ESTA SECCIÓN 'fields' COMPLETA
+    fields: # REEMPLAZA TODA ESTA SECCIÓN 'fields'
       - { label: "Nombre del Producto", name: "title", widget: "string" }
+      - { label: "Código del Producto", name: "code", widget: "string" } # <--- AQUÍ ESTÁ EL CAMPO QUE FALTABA
       - { label: "Imagen Principal", name: "image", widget: "image" }
       - { label: "Imagen para el Hover", name: "image_hover", widget: "image" }
-      - { label: "Precio (solo el número, ej: 320000)", name: "price", widget: "number" }
+      - { label: "Precio (solo el número)", name: "price", widget: "number" }
       - { label: "Categoría", name: "category", widget: "select", options: ["Hombres", "Mujeres"] }
       - { label: "Tipo de Prenda", name: "type", widget: "select", options: ["Camisa", "Pantalón", "Accesorio", "Blusa", "Gabán", "Otro"] }
       - { label: "Descripción Corta", name: "description", widget: "string" }
-      # --- INICIO DE LO NUEVO ---
-     - label: "Tallas Disponibles"
+      - label: "Tallas Disponibles"
         name: "sizes"
         widget: "list"
-        field: { label: "Talla", widget: "string" } # Así, simple. No como un 'select'.
+        field: { label: "Talla", widget: "string" } # Lo de las tallas que ya funciona
       - label: "Colores Disponibles"
         name: "colors"
         widget: "list"
         fields:
-          - { label: "Nombre del Color", name: "name", widget: "string", hint: "Ej: Beige, Coral, etc." }
-          - { label: "Código Hex del Color", name: "hex", widget: "color", hint: "Haz clic para abrir la paleta" }
+          - { label: "Nombre del Color", name: "name", widget: "string" }
+          - { label: "Selecciona el Color", name: "hex", widget: "color" }
       # --- FIN DE LO NUEVO ---
