@@ -8,6 +8,8 @@ type: Camisa
 description: adf.ma<FKJHSGJBBZDHIASFLJK<ZDBLIKABNJKÑBJKÑf
 sizes:
   - M
+  - S
+  - XL
 colors:
   - name: verde
     hex: "#28C920"
