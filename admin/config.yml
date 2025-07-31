@@ -4,6 +4,7 @@
 backend:
   name: git-gateway
   branch: master 
+  publish_mode: simple
 
 # Dónde se guardarán las fotos de los productos
 media_folder: "img/uploads"
@@ -32,7 +33,7 @@ collections:
         widget: "list"
         # LA LÍNEA CORREGIDA ES ESTA DE ABAJO. Se añadió name: "size"
         field: { label: "Talla", name: "size", widget: "string" }
-      - label: "Colores Disponibles"
+       -label: "Colores Disponibles"
         name: "colors"
         widget: "list"
         fields:
