@@ -1,5 +1,5 @@
 ---
-title: HOLA
+title: HOLAaaaaa
 image: /img/uploads/whatsapp-image-2025-07-29-at-11.51.20-am.jpeg
 image_hover: /img/uploads/2-2-1.jpg
 price: 250000
