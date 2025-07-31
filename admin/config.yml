@@ -25,10 +25,10 @@ collections:
       - { label: "Tipo de Prenda", name: "type", widget: "select", options: ["Camisa", "Pantalón", "Accesorio", "Blusa", "Gabán", "Otro"] }
       - { label: "Descripción Corta", name: "description", widget: "string" }
       # --- INICIO DE LO NUEVO ---
-      - label: "Tallas Disponibles"
+     - label: "Tallas Disponibles"
         name: "sizes"
-        widget: "list" # Esto crea una lista donde puedes añadir varias tallas
-        field: { label: "Talla", name: "size", widget: "select", options: ["S", "M", "L", "XL", "XXL"] }
+        widget: "list"
+        field: { label: "Talla", widget: "string" } # Así, simple. No como un 'select'.
       - label: "Colores Disponibles"
         name: "colors"
         widget: "list"
