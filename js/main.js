@@ -73,13 +73,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ================================================
     // 3. LÓGICA PARA CARGAR PRODUCTOS (VERSIÓN CORREGIDA Y ROBUSTA)
     // ================================================
-     async function cargarProductos() {
+      async function cargarProductos() {
         const apiURL = '/.netlify/functions/getProducts';
         try {
             const response = await fetch(apiURL);
             if (!response.ok) throw new Error(`Error en la función de Netlify: ${response.statusText}`);
             const files = await response.json();
-            if (!Array.isArray(files)) throw new Error("La respuesta no es una lista de productos válida.");
+            if (!Array.isArray(files)) throw new Error(files.message || "La respuesta no es una lista de productos válida.");
 
             const contenedorHombres = document.getElementById('productos-hombres');
             const contenedorMujeres = document.getElementById('productos-mujeres');
@@ -91,35 +91,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productResponse = await fetch(file.download_url);
                 const productContent = await productResponse.text();
 
-                // --- FUNCIÓN DE LECTURA (VERSIÓN FINAL) ---
+                // --- FUNCIÓN DE LECTURA (CORREGIDA PARA LEER BIEN TALLAS Y COLORES) ---
                 function parseFrontMatter(content) {
                     const data = {};
                     const frontMatterMatch = content.match(/---([\s\S]*?)---/);
                     if (!frontMatterMatch) return data;
                     const frontMatter = frontMatterMatch[1];
+
                     const lines = frontMatter.split('\n');
-
                     let currentList = null;
-                    lines.forEach((line, index) => {
-                        const trimmedLine = line.trim();
-                        if (trimmedLine === '') return;
+                    let lastColorObject = null;
 
-                        if (trimmedLine.startsWith('- ')) {
-                            if (currentList === 'sizes') {
-                                data.sizes.push(trimmedLine.substring(2));
-                            } else if (currentList === 'colors') {
-                                const nameMatch = lines[index].match(/-\s*name:\s*(.*)/);
-                                const hexMatch = lines[index + 1] ? lines[index + 1].match(/\s*hex:\s*(.*)/) : null;
-                                if (nameMatch && hexMatch) {
-                                    let hex = hexMatch[1].trim();
-                                    if (!hex.startsWith('#')) hex = '#' + hex;
-                                    data.colors.push({ name: nameMatch[1].trim(), hex });
-                                }
-                            }
-                        } else {
-                            const parts = line.split(':');
-                            const key = parts[0].trim();
-                            const value = parts.slice(1).join(':').trim();
+                    lines.forEach(line => {
+                        if (line.trim() === '') return;
+
+                        const keyMatch = line.match(/^([a-zA-Z_]+):(.*)/);
+                        if (keyMatch && !line.trim().startsWith('-')) {
+                            const key = keyMatch[1].trim();
+                            const value = keyMatch[2].trim();
                             if (value) {
                                 data[key] = value.replace(/"/g, '');
                                 currentList = null;
@@ -127,13 +116,30 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 currentList = key;
                                 data[currentList] = [];
                             }
+                        } else if (line.trim().startsWith('-')) {
+                            if (currentList === 'sizes') {
+                                data.sizes.push(line.replace('-', '').trim());
+                            } else if (currentList === 'colors') {
+                                const itemMatch = line.match(/-\s*(\w+):\s*(.*)/);
+                                if (itemMatch) {
+                                    const key = itemMatch[1];
+                                    const value = itemMatch[2].trim().replace(/"/g, '');
+                                    lastColorObject = { [key]: value };
+                                    data.colors.push(lastColorObject);
+                                }
+                            }
+                        } else if (line.trim().includes(':') && currentList === 'colors' && lastColorObject) {
+                            const parts = line.split(':');
+                            const key = parts[0].trim();
+                            let value = parts.slice(1).join(':').trim();
+                            if (!value.startsWith('#')) value = '#' + value;
+                            lastColorObject[key] = value;
                         }
                     });
                     return data;
                 }
 
                 const productData = parseFrontMatter(productContent);
-                console.log("Datos leídos para " + file.name + ":", productData); // Debugging
                 
                 let sizesHTML = '';
                 if (productData.sizes && productData.sizes.length > 0) {
