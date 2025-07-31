@@ -73,68 +73,59 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ================================================
     // 3. LÓGICA PARA CARGAR PRODUCTOS (VERSIÓN CORREGIDA Y ROBUSTA)
     // ================================================
-    async function cargarProductos() {
+     async function cargarProductos() {
         const apiURL = '/.netlify/functions/getProducts';
         try {
             const response = await fetch(apiURL);
             if (!response.ok) throw new Error(`Error en la función de Netlify: ${response.statusText}`);
             const files = await response.json();
-            if (!Array.isArray(files)) throw new Error(files.message || "La respuesta no es una lista de productos válida.");
+            if (!Array.isArray(files)) throw new Error("La respuesta no es una lista de productos válida.");
 
             const contenedorHombres = document.getElementById('productos-hombres');
             const contenedorMujeres = document.getElementById('productos-mujeres');
-
             if (contenedorHombres) contenedorHombres.innerHTML = '';
             if (contenedorMujeres) contenedorMujeres.innerHTML = '';
 
             for (const file of files) {
                 if (file.type !== 'file') continue;
-
                 const productResponse = await fetch(file.download_url);
                 const productContent = await productResponse.text();
 
-                // --- FUNCIÓN DE LECTURA HECHA A LA MEDIDA ---
+                // --- FUNCIÓN DE LECTURA (VERSIÓN FINAL) ---
                 function parseFrontMatter(content) {
                     const data = {};
                     const frontMatterMatch = content.match(/---([\s\S]*?)---/);
                     if (!frontMatterMatch) return data;
                     const frontMatter = frontMatterMatch[1];
-
                     const lines = frontMatter.split('\n');
+
                     let currentList = null;
-
                     lines.forEach((line, index) => {
-                        if (line.trim() === '') return;
+                        const trimmedLine = line.trim();
+                        if (trimmedLine === '') return;
 
-                        // Detecta una llave principal (ej: "title:", "sizes:")
-                        const mainKeyMatch = line.match(/^([a-zA-Z_]+):(.*)/);
-                        if (mainKeyMatch) {
-                            const key = mainKeyMatch[1].trim();
-                            const value = mainKeyMatch[2].trim();
-
-                            if (value) { // Es una llave simple como title: "valor"
+                        if (trimmedLine.startsWith('- ')) {
+                            if (currentList === 'sizes') {
+                                data.sizes.push(trimmedLine.substring(2));
+                            } else if (currentList === 'colors') {
+                                const nameMatch = lines[index].match(/-\s*name:\s*(.*)/);
+                                const hexMatch = lines[index + 1] ? lines[index + 1].match(/\s*hex:\s*(.*)/) : null;
+                                if (nameMatch && hexMatch) {
+                                    let hex = hexMatch[1].trim();
+                                    if (!hex.startsWith('#')) hex = '#' + hex;
+                                    data.colors.push({ name: nameMatch[1].trim(), hex });
+                                }
+                            }
+                        } else {
+                            const parts = line.split(':');
+                            const key = parts[0].trim();
+                            const value = parts.slice(1).join(':').trim();
+                            if (value) {
                                 data[key] = value.replace(/"/g, '');
                                 currentList = null;
-                            } else { // Es una declaración de lista como "sizes:"
+                            } else {
                                 currentList = key;
                                 data[currentList] = [];
-                            }
-                        } else if (line.trim().startsWith('-')) { // Es un elemento de una lista
-                            if (currentList === 'sizes') {
-                                data.sizes.push(line.replace('-', '').trim());
-                            } else if (currentList === 'colors') {
-                                const nameMatch = line.match(/-\s*name:\s*(.*)/);
-                                if (nameMatch) {
-                                    const nextLine = lines[index + 1] || '';
-                                    const hexMatch = nextLine.match(/\s*hex:\s*(.*)/);
-                                    if (hexMatch) {
-                                        let hex = hexMatch[1].trim();
-                                        if (!hex.startsWith('#')) {
-                                            hex = '#' + hex; // Le añade el # si se te olvida
-                                        }
-                                        data.colors.push({ name: nameMatch[1].trim(), hex: hex });
-                                    }
-                                }
                             }
                         }
                     });
@@ -142,6 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
                 const productData = parseFrontMatter(productContent);
+                console.log("Datos leídos para " + file.name + ":", productData); // Debugging
                 
                 let sizesHTML = '';
                 if (productData.sizes && productData.sizes.length > 0) {
@@ -171,7 +163,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <a href="./productos.html?product=${file.name.replace('.md', '')}" class="mt-auto block w-full text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2 hover:bg-gray-700" data-i18n="more_info">Más Información</a>
                         </div>
                         <div class="mt-3 text-left">
-                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || 'Producto sin nombre'}</h3>
+                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || ''}</h3>
                             <p class="text-xs text-gray-600 mt-1 normal-case">${productData.description || ''}</p>
                             <p class="text-sm font-bold mt-1 text-black-600">$${Number(productData.price || 0).toLocaleString('es-CO')} COP</p>
                         </div>
@@ -188,6 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error("Error definitivo al cargar productos:", error);
         }
     }
+
 
     // ================================================
     // 4. INICIO
