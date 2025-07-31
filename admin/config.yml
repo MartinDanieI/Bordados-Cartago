@@ -31,8 +31,8 @@ collections:
         field: { label: "Talla", name: "size", widget: "select", options: ["S", "M", "L", "XL", "XXL"] }
       - label: "Colores Disponibles"
         name: "colors"
-        widget: "list" # Y otra lista para los colores
-        fields: # Cada color tendrá un nombre y un código de color
+        widget: "list"
+        fields:
           - { label: "Nombre del Color", name: "name", widget: "string", hint: "Ej: Beige, Coral, etc." }
-          - { label: "Código Hex del Color", name: "hex", widget: "string", hint: "Ej: #D3C5B8" }
+          - { label: "Código Hex del Color", name: "hex", widget: "color", hint: "Haz clic para abrir la paleta" }
       # --- FIN DE LO NUEVO ---
