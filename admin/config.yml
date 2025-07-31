@@ -1,0 +1,26 @@
+# admin/config.yml
+
+# Configuración del backend (cómo se conecta a tu código)
+backend:
+  name: git-gateway
+  branch: master 
+
+# Dónde se guardarán las fotos de los productos
+media_folder: "img/uploads"
+public_folder: "/img/uploads"
+
+# Define las "colecciones" de contenido. En tu caso, solo una: Productos.
+collections:
+  - name: "productos"
+    label: "Productos"
+    folder: "_productos" # Aquí se guardará un archivo por cada producto nuevo
+    create: true
+    slug: "{{slug}}" # Usa el nombre del producto para el nombre del archivo
+    fields: # Estos son los campos que llenarás en el formulario
+      - { label: "Nombre del Producto", name: "title", widget: "string" }
+      - { label: "Imagen Principal", name: "image", widget: "image" }
+      - { label: "Imagen para el Hover", name: "image_hover", widget: "image" }
+      - { label: "Precio (solo el número, ej: 320000)", name: "price", widget: "number" }
+      - { label: "Categoría", name: "category", widget: "select", options: ["Hombres", "Mujeres"] }
+      - { label: "Tipo de Prenda", name: "type", widget: "select", options: ["Camisa", "Pantalón", "Accesorio", "Blusa", "Gabán", "Otro"] }
+      - { label: "Descripción Corta", name: "description", widget: "string" }
