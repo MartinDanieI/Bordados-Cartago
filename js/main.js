@@ -79,11 +79,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(apiURL);
             if (!response.ok) throw new Error(`Error en la función de Netlify: ${response.statusText}`);
             const files = await response.json();
-            if (!Array.isArray(files)) throw new Error("La respuesta no es una lista de productos válida.");
+            if (!Array.isArray(files)) throw new Error(files.message || "La respuesta no es una lista de productos válida.");
 
             const contenedorHombres = document.getElementById('productos-hombres');
             const contenedorMujeres = document.getElementById('productos-mujeres');
-
             if (contenedorHombres) contenedorHombres.innerHTML = '';
             if (contenedorMujeres) contenedorMujeres.innerHTML = '';
 
@@ -92,42 +91,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productResponse = await fetch(file.download_url);
                 const productContent = await productResponse.text();
 
+                // --- FUNCIÓN DE LECTURA (HECHA A MEDIDA PARA TUS ARCHIVOS) ---
                 function parseFrontMatter(content) {
                     const data = {};
                     const frontMatterMatch = content.match(/---([\s\S]*?)---/);
                     if (!frontMatterMatch) return data;
                     const frontMatter = frontMatterMatch[1];
-                    const lines = frontMatter.split('\n');
-
-                    let currentList = null;
-                    lines.forEach((line, index) => {
-                        const trimmedLine = line.trim();
-                        if (trimmedLine === '') return;
-                        const keyMatch = trimmedLine.match(/^([a-zA-Z_]+):(.*)/);
-                        if (keyMatch) {
-                            const key = keyMatch[1];
-                            const value = keyMatch[2].trim();
-                            if (value) {
-                                data[key] = value.replace(/"/g, '');
-                                currentList = null;
-                            } else {
-                                currentList = key;
-                                data[key] = [];
-                            }
-                        } else if (trimmedLine.startsWith('-')) {
-                            if (currentList === 'sizes') {
-                                data.sizes.push(trimmedLine.substring(1).trim());
-                            } else if (currentList === 'colors') {
-                                const nameMatch = lines[index].match(/-\s*name:\s*(.*)/);
-                                const hexMatch = lines[index + 1] ? lines[index + 1].match(/\s*hex:\s*(.*)/) : null;
-                                if (nameMatch && hexMatch) {
-                                    let hex = hexMatch[1].trim();
-                                    if (!hex.startsWith('#')) hex = '#' + hex;
-                                    data.colors.push({ name: nameMatch[1].trim(), hex });
-                                }
-                            }
-                        }
+                    
+                    const simpleFields = ['title', 'code', 'image', 'image_hover', 'price', 'category', 'type', 'description'];
+                    simpleFields.forEach(field => {
+                        const regex = new RegExp(`^${field}:\\s*(.*)$`, 'm');
+                        const match = frontMatter.match(regex);
+                        if (match) data[field] = match[1].replace(/"/g, '').trim();
                     });
+
+                    data.sizes = Array.from(frontMatter.matchAll(/-\s*(S|M|L|XL|XXL)/g), m => m[1]);
+                    data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*)\n\s*hex:\s*#?(.*)/g), m => ({
+                        name: m[1].trim(),
+                        hex: '#' + m[2].trim()
+                    }));
                     return data;
                 }
 
