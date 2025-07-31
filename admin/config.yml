@@ -1,5 +1,3 @@
-# admin/config.yml - VERSIÓN FINAL
-
 backend:
   name: git-gateway
   branch: main

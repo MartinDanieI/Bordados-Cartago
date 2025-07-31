@@ -39,55 +39,73 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productContent = await productResponse.text();
 
                 // --- FUNCIÓN DE LECTURA HECHA A LA MEDIDA ---
-                function parseFrontMatter(content) {
-                    const data = {};
-                    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
-                    if (!frontMatterMatch) return data;
-                    const frontMatter = frontMatterMatch[1];
-                    const lines = frontMatter.split('\n');
+               function parseFrontMatter(content) {
+    const data = {};
+    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+    if (!frontMatterMatch) return data;
+    const frontMatter = frontMatterMatch[1];
+    const lines = frontMatter.split('\n');
 
-                    let currentList = null;
-                    let lastColorObject = null;
+    let currentList = null;
+    let lastColorObject = null;
 
-                    lines.forEach(line => {
-                        const trimmedLine = line.trim();
-                        if (trimmedLine === '') return;
+    data.colors = [];
+    data.sizes = [];
 
-                        const keyMatch = trimmedLine.match(/^([a-zA-Z_]+):(.*)/);
-                        if (keyMatch && !trimmedLine.startsWith('-')) {
-                            const key = keyMatch[1];
-                            const value = keyMatch[2].trim();
-                            if (value) {
-                                data[key] = value.replace(/"/g, '');
-                                currentList = null;
-                            } else {
-                                currentList = key;
-                                data[currentList] = [];
-                            }
-                      } else if (trimmedLine.startsWith('-') && currentList === 'colors') {
-    // Comienza nuevo objeto color
-    lastColorObject = {};
-    data.colors.push(lastColorObject);
-    const rest = trimmedLine.substring(1).trim();
-    if (rest.includes(':')) {
-        const [key, ...valParts] = rest.split(':');
-        let value = valParts.join(':').trim();
-        if (key.trim() === 'hex' && !value.startsWith('#')) {
-            value = '#' + value;
+    lines.forEach(line => {
+        const trimmedLine = line.trim();
+        if (trimmedLine === '') return;
+
+        // Clave-valor directo
+        const keyMatch = trimmedLine.match(/^([a-zA-Z_]+):(.*)/);
+        if (keyMatch && !trimmedLine.startsWith('-')) {
+            const key = keyMatch[1].trim();
+            const value = keyMatch[2].trim();
+            if (value) {
+                data[key] = value.replace(/"/g, '');
+                currentList = null;
+            } else {
+                currentList = key;
+                data[currentList] = [];
+            }
         }
-        lastColorObject[key.trim()] = value;
-    }
-} else if (trimmedLine.includes(':') && currentList === 'colors' && lastColorObject) {
-    const [key, ...valParts] = trimmedLine.split(':');
-    let value = valParts.join(':').trim();
-    if (key.trim() === 'hex' && !value.startsWith('#')) {
-        value = '#' + value;
-    }
-    lastColorObject[key.trim()] = value;
-}
-                    });
-                    return data;
+
+        // Elemento de lista (colores o tallas)
+        else if (trimmedLine.startsWith('-')) {
+            if (currentList === 'sizes') {
+                // Tallas simples
+                const sizeValue = trimmedLine.substring(1).trim();
+                if (sizeValue) data.sizes.push(sizeValue);
+            } else if (currentList === 'colors') {
+                // Puede ser objeto o línea con clave-valor
+                const rest = trimmedLine.substring(1).trim();
+                lastColorObject = {};
+                data.colors.push(lastColorObject);
+
+                if (rest.includes(':')) {
+                    const [key, ...valParts] = rest.split(':');
+                    let value = valParts.join(':').trim();
+                    if (key.trim() === 'hex' && !value.startsWith('#')) {
+                        value = '#' + value;
+                    }
+                    lastColorObject[key.trim()] = value;
                 }
+            }
+        }
+
+        // Propiedad interna de un color
+        else if (currentList === 'colors' && lastColorObject && trimmedLine.includes(':')) {
+            const [key, ...valParts] = trimmedLine.split(':');
+            let value = valParts.join(':').trim();
+            if (key.trim() === 'hex' && !value.startsWith('#')) {
+                value = '#' + value;
+            }
+            lastColorObject[key.trim()] = value;
+        }
+    });
+
+    return data;
+}
 
                 const productData = parseFrontMatter(productContent);
                 
