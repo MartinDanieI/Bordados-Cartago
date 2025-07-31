@@ -64,25 +64,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 currentList = key;
                                 data[currentList] = [];
                             }
-                        } else if (trimmedLine.startsWith('-')) {
-                            if (currentList === 'sizes') {
-                                data.sizes.push(trimmedLine.substring(1).trim());
-                            } else if (currentList === 'colors') {
-                                const itemMatch = trimmedLine.match(/-\s*name:\s*(.*)/);
-                                if (itemMatch) {
-                                    lastColorObject = { name: itemMatch[1].trim() };
-                                    data.colors.push(lastColorObject);
-                                }
-                            }
-                        } else if (trimmedLine.includes(':') && currentList === 'colors' && lastColorObject) {
-                            const parts = trimmedLine.split(':');
-                            const key = parts[0].trim();
-                            let value = parts.slice(1).join(':').trim();
-                            if (key === 'hex' && !value.startsWith('#')) {
-                                value = '#' + value;
-                            }
-                            lastColorObject[key] = value;
-                        }
+                      } else if (trimmedLine.startsWith('-') && currentList === 'colors') {
+    // Comienza nuevo objeto color
+    lastColorObject = {};
+    data.colors.push(lastColorObject);
+    const rest = trimmedLine.substring(1).trim();
+    if (rest.includes(':')) {
+        const [key, ...valParts] = rest.split(':');
+        let value = valParts.join(':').trim();
+        if (key.trim() === 'hex' && !value.startsWith('#')) {
+            value = '#' + value;
+        }
+        lastColorObject[key.trim()] = value;
+    }
+} else if (trimmedLine.includes(':') && currentList === 'colors' && lastColorObject) {
+    const [key, ...valParts] = trimmedLine.split(':');
+    let value = valParts.join(':').trim();
+    if (key.trim() === 'hex' && !value.startsWith('#')) {
+        value = '#' + value;
+    }
+    lastColorObject[key.trim()] = value;
+}
                     });
                     return data;
                 }
