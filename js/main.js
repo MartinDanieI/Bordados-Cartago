@@ -1,4 +1,4 @@
-// js/main.js - VERSIÓN FINAL A PRUEBA DE BALAS
+// js/main.js - VERSIÓN FINAL Y COMPLETA
 
 document.addEventListener('DOMContentLoaded', async () => {
     
@@ -67,19 +67,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
     
+    if (mobileMenu) mobileMenu.addEventListener('click', e => e.stopPropagation());
+    if (langMenu) langMenu.addEventListener('click', e => e.stopPropagation());
+
     // ================================================
     // 3. LÓGICA PARA CARGAR PRODUCTOS (VERSIÓN CORREGIDA Y ROBUSTA)
     // ================================================
     async function cargarProductos() {
-        // Usamos el "puente" seguro de Netlify Functions que configuramos
         const apiURL = '/.netlify/functions/getProducts';
 
         try {
             const response = await fetch(apiURL);
-            if (!response.ok) throw new Error(`Error en la función de Netlify: ${response.statusText}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Error en el servidor (Netlify Function): ${errorData.error || response.statusText}`);
+            }
             
             const files = await response.json();
-            if (files.error || !Array.isArray(files)) throw new Error(files.error || "La respuesta de la función no es válida.");
+            if (!Array.isArray(files)) {
+                throw new Error(files.message || "La respuesta no es una lista de productos válida. Revisa el Token de GitHub.");
+            }
 
             const contenedorHombres = document.getElementById('productos-hombres');
             const contenedorMujeres = document.getElementById('productos-mujeres');
@@ -93,41 +100,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productResponse = await fetch(file.download_url);
                 const productContent = await productResponse.text();
 
-                // --- Función para extraer datos (VERSIÓN MEJORADA) ---
                 function parseFrontMatter(content) {
                     const data = {};
                     const frontMatterMatch = content.match(/---([\s\S]*?)---/);
                     if (!frontMatterMatch) return data;
-                    
                     const frontMatter = frontMatterMatch[1];
-                    const lines = frontMatter.split('\n');
                     
-                    let currentList = null;
-                    lines.forEach(line => {
-                        if (line.trim() === '') return;
-                        
-                        const simpleMatch = line.match(/^(\w+):\s*"?([^"]*)"?$/);
-                        if (simpleMatch && !line.includes('  -')) {
-                            const key = simpleMatch[1];
-                            const value = simpleMatch[2];
-                            if (key === 'sizes' || key === 'colors') {
-                                currentList = key;
-                                data[currentList] = [];
-                            } else {
-                                data[key] = value;
-                            }
-                        } else if (line.trim().startsWith('- ')) {
-                            if (currentList === 'sizes') {
-                                data.sizes.push(line.match(/-\s*size:\s*(.*)/)[1].trim());
-                            } else if (currentList === 'colors') {
-                                const nameMatch = line.match(/name:\s*"?([^"]*)"?/);
-                                const hexMatch = lines[lines.indexOf(line) + 1].match(/hex:\s*"?([^"]*)"?/);
-                                if(nameMatch && hexMatch){
-                                    data.colors.push({ name: nameMatch[1], hex: hexMatch[1] });
-                                }
-                            }
-                        }
+                    const simpleFields = ['title', 'code', 'image', 'image_hover', 'price', 'category', 'type', 'description'];
+                    simpleFields.forEach(field => {
+                        const regex = new RegExp(`^${field}:\\s*(.*)$`, 'm');
+                        const match = frontMatter.match(regex);
+                        if (match) data[field] = match[1].replace(/"/g, '').trim();
                     });
+
+                    data.sizes = Array.from(frontMatter.matchAll(/-\s*size:\s*(.*)/g), m => m[1].trim().replace(/"/g, ''));
+                    data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*)\n\s*hex:\s*(.*)/g), m => ({
+                        name: m[1].replace(/"/g, '').trim(),
+                        hex: m[2].trim()
+                    }));
+                    
                     return data;
                 }
 
@@ -161,7 +152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <a href="./productos.html?product=${file.name.replace('.md', '')}" class="mt-auto block w-full text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2 hover:bg-gray-700" data-i18n="more_info">Más Información</a>
                         </div>
                         <div class="mt-3 text-left">
-                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || ''}</h3>
+                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || 'Producto sin nombre'}</h3>
                             <p class="text-xs text-gray-600 mt-1 normal-case">${productData.description || ''}</p>
                             <p class="text-sm font-bold mt-1 text-black-600">$${Number(productData.price || 0).toLocaleString('es-CO')} COP</p>
                         </div>
@@ -175,7 +166,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             setLanguage(localStorage.getItem('language') || 'es');
         } catch (error) {
-            console.error("Error cargando los productos:", error);
+            console.error("Error definitivo al cargar productos:", error);
+            const productContainer = document.getElementById('productos-hombres') || document.getElementById('productos-mujeres');
+            if(productContainer) productContainer.innerHTML = `<p class="col-span-full text-center text-red-500">Error al cargar productos: ${error.message}</p>`;
         }
     }
 
