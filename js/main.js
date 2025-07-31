@@ -1,3 +1,5 @@
+console.log("Archivo main.js cargado y ejecutándose");
+
 document.addEventListener('DOMContentLoaded', async () => {
 
     // --- LÓGICA DE TRADUCCIÓN ---
