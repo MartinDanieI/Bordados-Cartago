@@ -10,7 +10,12 @@ description: guayabera manga corta/larga
 sizes:
   - L
   - S
+  - M
+  - XL
+  - XXL
 colors:
   - name: BEIGE
     hex: "#c6c09a"
+  - name: V. claro
+    hex: "#07cb1f"
 ---
