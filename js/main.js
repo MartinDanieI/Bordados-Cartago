@@ -1,4 +1,4 @@
-// js/main.js - VERSIÓN FINAL Y COMPLETA
+// js/main.js - VERSIÓN COMPLETA Y FINAL
 
 document.addEventListener('DOMContentLoaded', async () => {
     
@@ -66,16 +66,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             langMenu.classList.add('hidden');
         }
     });
-    
+
     if (mobileMenu) mobileMenu.addEventListener('click', e => e.stopPropagation());
     if (langMenu) langMenu.addEventListener('click', e => e.stopPropagation());
-
+    
     // ================================================
     // 3. LÓGICA PARA CARGAR PRODUCTOS (VERSIÓN CORREGIDA Y ROBUSTA)
     // ================================================
     async function cargarProductos() {
         const apiURL = '/.netlify/functions/getProducts';
-
         try {
             const response = await fetch(apiURL);
             if (!response.ok) {
@@ -100,29 +99,45 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productResponse = await fetch(file.download_url);
                 const productContent = await productResponse.text();
 
+                // --- FUNCIÓN DE LECTURA (MÁS INTELIGENTE) ---
                 function parseFrontMatter(content) {
-                    const data = {};
+                    const data = { sizes: [], colors: [] }; // Inicia las listas como vacías
                     const frontMatterMatch = content.match(/---([\s\S]*?)---/);
                     if (!frontMatterMatch) return data;
+                    
                     const frontMatter = frontMatterMatch[1];
-                    
-                    const simpleFields = ['title', 'code', 'image', 'image_hover', 'price', 'category', 'type', 'description'];
-                    simpleFields.forEach(field => {
-                        const regex = new RegExp(`^${field}:\\s*(.*)$`, 'm');
-                        const match = frontMatter.match(regex);
-                        if (match) data[field] = match[1].replace(/"/g, '').trim();
-                    });
+                    const lines = frontMatter.split('\n');
+                    let currentList = null;
 
-                    data.sizes = Array.from(frontMatter.matchAll(/-\s*size:\s*(.*)/g), m => m[1].trim().replace(/"/g, ''));
-                    data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*)\n\s*hex:\s*(.*)/g), m => ({
-                        name: m[1].replace(/"/g, '').trim(),
-                        hex: m[2].trim()
-                    }));
-                    
+                    lines.forEach(line => {
+                        if (line.trim() === '') return;
+                        
+                        const simpleMatch = line.match(/^(\w+):\s*"?([^"]*)"?$/);
+                        const listMatch = line.match(/^(\w+):$/);
+
+                        if (listMatch) {
+                            currentList = listMatch[1];
+                            data[currentList] = [];
+                        } else if (line.trim().startsWith('- size:')) {
+                            data.sizes.push(line.split('- size:')[1].trim());
+                        } else if (line.trim().startsWith('- name:')) {
+                            const name = line.split('- name:')[1].trim();
+                            const nextLine = lines[lines.indexOf(line) + 1] || '';
+                            const hexMatch = nextLine.match(/hex:\s*"?([^"]*)"?/);
+                            if (hexMatch) {
+                                data.colors.push({ name, hex: hexMatch[1] });
+                            }
+                        } else if (simpleMatch) {
+                            data[simpleMatch[1]] = simpleMatch[2];
+                        }
+                    });
                     return data;
                 }
 
                 const productData = parseFrontMatter(productContent);
+
+                // *** ¡LA LÍNEA MÁS IMPORTANTE PARA DEBUGGEAR! ***
+                console.log("Datos leídos para el producto:", file.name, productData);
                 
                 let sizesHTML = '';
                 if (productData.sizes && productData.sizes.length > 0) {
@@ -152,7 +167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <a href="./productos.html?product=${file.name.replace('.md', '')}" class="mt-auto block w-full text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2 hover:bg-gray-700" data-i18n="more_info">Más Información</a>
                         </div>
                         <div class="mt-3 text-left">
-                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || 'Producto sin nombre'}</h3>
+                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || ''}</h3>
                             <p class="text-xs text-gray-600 mt-1 normal-case">${productData.description || ''}</p>
                             <p class="text-sm font-bold mt-1 text-black-600">$${Number(productData.price || 0).toLocaleString('es-CO')} COP</p>
                         </div>
@@ -177,5 +192,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ================================================
     const savedLanguage = localStorage.getItem('language') || 'es';
     setLanguage(savedLanguage);
-    cargarProductos();
+    await cargarProductos();
 });
