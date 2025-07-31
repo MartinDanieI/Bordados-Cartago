@@ -30,77 +30,73 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- PARSEADOR DE FRONTMATTER PERSONALIZADO ---
-    function parseFrontMatter(content) {
-        const data = {};
-        const frontMatterMatch = content.match(/---([\s\S]*?)---/);
-        if (!frontMatterMatch) return data;
+  function parseFrontMatter(content) {
+    const data = {};
+    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+    if (!frontMatterMatch) return data;
 
-        const frontMatter = frontMatterMatch[1];
-        const lines = frontMatter.split('\n');
+    const frontMatter = frontMatterMatch[1];
+    const lines = frontMatter.split('\n');
 
-        let currentList = null;
-        let currentItem = null;
+    let currentList = null;
+    let currentItem = null;
 
-        data.colors = [];
-        data.sizes = [];
+    data.colors = [];
+    data.sizes = [];
 
-        lines.forEach(line => {
-            const trimmed = line.trim();
+    lines.forEach(line => {
+        const trimmed = line.trim();
+        if (trimmed === '') return;
 
-            if (trimmed === '') return;
+        // Clave: valor
+        const keyVal = trimmed.match(/^([a-zA-Z_]+):\s*(.*)$/);
+        if (keyVal && !trimmed.startsWith('-')) {
+            const key = keyVal[1];
+            const val = keyVal[2];
 
-            // Clave: valor
-            const keyVal = trimmed.match(/^([a-zA-Z_]+):\s*(.*)$/);
-            if (keyVal && !trimmed.startsWith('-')) {
-                const key = keyVal[1];
-                const val = keyVal[2];
+            if (val === '') {
+                currentList = key;
+                if (!data[currentList]) data[currentList] = [];
+            } else {
+                data[key] = val.replace(/"/g, '');
+                currentList = null;
+            }
+        }
 
-                if (val === '') {
-                    // Es lista
-                    currentList = key;
-                    if (!data[currentList]) data[currentList] = [];
-                } else {
-                    data[key] = val.replace(/"/g, '');
-                    currentList = null;
-                }
+        // Elemento de lista
+        else if (trimmed.startsWith('-')) {
+            const listLine = trimmed.slice(1).trim();
+
+            if (currentList === 'sizes') {
+                data.sizes.push(listLine);
             }
 
-            // Elemento de lista
-            else if (trimmed.startsWith('-')) {
-                const listLine = trimmed.slice(1).trim();
-
-                if (currentList === 'sizes') {
-                    data.sizes.push(listLine);
-                }
-
-                else if (currentList === 'colors') {
+            else if (currentList === 'colors') {
+                // Puede venir como: - name: BEIGE
+                const inline = listLine.match(/^name:\s*(.*)$/);
+                if (inline) {
+                    currentItem = { name: inline[1].trim() };
+                    data.colors.push(currentItem);
+                } else {
                     currentItem = {};
                     data.colors.push(currentItem);
-
-                    const [key, ...valueParts] = listLine.split(':');
-                    if (key && valueParts.length) {
-                        let value = valueParts.join(':').trim();
-                        if (key.trim() === 'hex' && !value.startsWith('#')) {
-                            value = '#' + value;
-                        }
-                        currentItem[key.trim()] = value;
-                    }
                 }
             }
+        }
 
-            // Propiedad interna de un color
-            else if (currentList === 'colors' && currentItem && trimmed.includes(':')) {
-                const [key, ...valueParts] = trimmed.split(':');
-                let value = valueParts.join(':').trim();
-                if (key.trim() === 'hex' && !value.startsWith('#')) {
-                    value = '#' + value;
-                }
-                currentItem[key.trim()] = value;
+        // Propiedades internas
+        else if (currentList === 'colors' && currentItem && trimmed.includes(':')) {
+            const [key, ...valueParts] = trimmed.split(':');
+            let value = valueParts.join(':').trim();
+            if (key.trim() === 'hex' && !value.startsWith('#')) {
+                value = '#' + value;
             }
-        });
+            currentItem[key.trim()] = value;
+        }
+    });
 
-        return data;
-    }
+    return data;
+}
 
     // --- CARGA DE PRODUCTOS ---
     async function cargarProductos() {
