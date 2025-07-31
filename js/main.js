@@ -99,26 +99,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // --- Función mejorada para extraer todos los datos, incluyendo listas ---
                 function parseFrontMatter(content) {
                     const data = {};
-                    const frontMatter = content.split('---')[1];
-                    if (!frontMatter) return data;
+                    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+                    if (!frontMatterMatch) return data;
+                    const frontMatter = frontMatterMatch[1];
                     
-                    // Extrae valores simples (llave: valor)
-                    frontMatter.split('\n').forEach(line => {
-                        const match = line.match(/^(.*?): (.*)$/);
-                        if (match) {
-                            const key = match[1].trim();
-                            const value = match[2].trim().replace(/"/g, '');
-                            if (!['size', 'name', 'hex'].includes(key)) { // Evita sobreescribir listas
-                                data[key] = value;
-                            }
-                        }
+                    const simpleFields = ['title', 'image', 'image_hover', 'price', 'category', 'type', 'description', 'code'];
+                    simpleFields.forEach(field => {
+                        const regex = new RegExp(`^${field}:\\s*(.*)$`, 'm');
+                        const match = frontMatter.match(regex);
+                        if (match) data[field] = match[1].replace(/"/g, '').trim();
                     });
-                    
-                    // Extrae las listas de tallas y colores
-                    data.sizes = Array.from(content.matchAll(/size: (.*)/g), m => m[1].replace(/"/g, ''));
-                    data.colors = Array.from(content.matchAll(/-\s*name: (.*)\n\s*hex: (.*)/g), m => ({ name: m[1].replace(/"/g, '').trim(), hex: m[2].trim() }));
-                    data.code = data.code || 'N/A'; // Asigna un código por defecto si no existe
 
+                    data.sizes = Array.from(frontMatter.matchAll(/-\s*size:\s*(.*)/g), m => m[1].trim().replace(/"/g, ''));
+                    data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*)\n\s*hex:\s*(.*)/g), m => ({
+                        name: m[1].replace(/"/g, '').trim(),
+                        hex: m[2].trim()
+                    }));
+                    
+                    data.code = data.code || 'N/A';
                     return data;
                 }
 
@@ -131,8 +129,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <p class="w-full text-xs text-gray-700 font-bold mt-2" data-i18n="sizes">Tallas:</p>
                         <div class="flex flex-wrap justify-center gap-1 mt-1">
                             ${productData.sizes.map(size => `<div class="border border-gray-400 rounded text-xs px-2 py-0.5">${size}</div>`).join('')}
-                        </div>
-                    `;
+                        </div>`;
                 }
 
                 // --- Generar HTML para los Colores (si existen) ---
@@ -142,31 +139,30 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <p class="w-full text-xs text-gray-700 font-bold mt-2" data-i18n="colors">Colores:</p>
                         <div class="flex flex-wrap justify-center gap-2 mt-1">
                             ${productData.colors.map(color => `<div title="${color.name}"><span style="background-color: ${color.hex};" class="block w-5 h-5 rounded-full border border-gray-400"></span></div>`).join('')}
-                        </div>
-                    `;
+                        </div>`;
                 }
 
                 // --- Creación de la tarjeta HTML COMPLETA ---
                 const productCardHTML = `
                     <div class="group relative">
-                        <a href="./productos.html">
+                        <a href="./productos.html?product=${file.name.replace('.md', '')}">
                             <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                                <img src="${productData.image}" alt="${productData.title}" class="w-full h-full object-contain p-0">
+                                <img src="${productData.image || ''}" alt="${productData.title || ''}" class="w-full h-full object-contain p-0">
                             </div>
                         </a>
                         <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col items-center p-3 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-y-auto">
                             <div class="w-full mb-2 aspect-video flex justify-center items-center bg-gray-300 rounded-md">
-                                <img src="${productData.image_hover || productData.image}" alt="Vista detallada de ${productData.title}" class="w-full h-full object-contain p-1">
+                                <img src="${productData.image_hover || productData.image}" alt="Vista detallada de ${productData.title || ''}" class="w-full h-full object-contain p-1">
                             </div>
                             <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
                             <p class="text-xs mt-1"><b data-i18n="code">Código:</b> ${productData.code}</p>
                             ${sizesHTML}
                             ${colorsHTML}
-                            <a href="./productos.html" class="mt-auto block w-full text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2 hover:bg-gray-700" data-i18n="more_info">Más Información</a>
+                            <a href="./productos.html?product=${file.name.replace('.md', '')}" class="mt-auto block w-full text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2 hover:bg-gray-700" data-i18n="more_info">Más Información</a>
                         </div>
                         <div class="mt-3 text-left">
-                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title}</h3>
-                            <p class="text-xs text-gray-600 mt-1 normal-case">${productData.description}</p>
+                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || ''}</h3>
+                            <p class="text-xs text-gray-600 mt-1 normal-case">${productData.description || ''}</p>
                             <p class="text-sm font-bold mt-1 text-black-600">$${Number(productData.price || 0).toLocaleString('es-CO')} COP</p>
                         </div>
                     </div>
