@@ -16,9 +16,11 @@ collections:
     folder: "_productos"
     create: true
     slug: "{{slug}}"
-    fields: # REEMPLAZA TODA ESTA SECCIÓN 'fields'
+    editor:
+      preview: true
+    fields:
       - { label: "Nombre del Producto", name: "title", widget: "string" }
-      - { label: "Código del Producto", name: "code", widget: "string" } # <--- AQUÍ ESTÁ EL CAMPO QUE FALTABA
+      - { label: "Código del Producto", name: "code", widget: "string" }
       - { label: "Imagen Principal", name: "image", widget: "image" }
       - { label: "Imagen para el Hover", name: "image_hover", widget: "image" }
       - { label: "Precio (solo el número)", name: "price", widget: "number" }
@@ -28,11 +30,11 @@ collections:
       - label: "Tallas Disponibles"
         name: "sizes"
         widget: "list"
-        field: { label: "Talla", widget: "string" } # Lo de las tallas que ya funciona
+        # LA LÍNEA CORREGIDA ES ESTA DE ABAJO. Se añadió name: "size"
+        field: { label: "Talla", name: "size", widget: "string" }
       - label: "Colores Disponibles"
         name: "colors"
         widget: "list"
         fields:
           - { label: "Nombre del Color", name: "name", widget: "string" }
           - { label: "Selecciona el Color", name: "hex", widget: "color" }
-      # --- FIN DE LO NUEVO ---
