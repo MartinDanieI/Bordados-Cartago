@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     
     // ================================================
-    // 3. LÓGICA PARA CARGAR PRODUCTOS (ESTO ES LO NUEVO)
+    // 3. LÓGICA PARA CARGAR PRODUCTOS (ESTA ES LA PARTE ACTUALIZADA)
     // ================================================
     async function cargarProductos() {
         const repoURL = 'https://api.github.com/repos/MartinDanieI/Bordados-Cartago/contents/_productos';
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!response.ok) {
                 if (response.status === 404) {
                     console.warn("La carpeta '_productos' no existe todavía. Publica tu primer producto desde el CMS para crearla.");
-                    return; // No es un error crítico, simplemente no hay productos aún.
+                    return;
                 }
                 throw new Error(`Error al contactar GitHub: ${response.statusText}`);
             }
@@ -96,52 +96,93 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productResponse = await fetch(file.download_url);
                 const productContent = await productResponse.text();
 
-                // --- Extracción de datos mejorada ---
-                const data = productContent.split('---')[1].split('\n').reduce((acc, line) => {
-                    const parts = line.split(': ');
-                    if (parts.length > 1) {
-                        acc[parts[0].trim()] = parts.slice(1).join(': ').replace(/"/g, '').trim();
-                    }
-                    return acc;
-                }, {});
+                // --- Función mejorada para extraer todos los datos, incluyendo listas ---
+                function parseFrontMatter(content) {
+                    const data = {};
+                    const frontMatter = content.split('---')[1];
+                    if (!frontMatter) return data;
+                    
+                    // Extrae valores simples (llave: valor)
+                    frontMatter.split('\n').forEach(line => {
+                        const match = line.match(/^(.*?): (.*)$/);
+                        if (match) {
+                            const key = match[1].trim();
+                            const value = match[2].trim().replace(/"/g, '');
+                            if (!['size', 'name', 'hex'].includes(key)) { // Evita sobreescribir listas
+                                data[key] = value;
+                            }
+                        }
+                    });
+                    
+                    // Extrae las listas de tallas y colores
+                    data.sizes = Array.from(content.matchAll(/size: (.*)/g), m => m[1].replace(/"/g, ''));
+                    data.colors = Array.from(content.matchAll(/-\s*name: (.*)\n\s*hex: (.*)/g), m => ({ name: m[1].replace(/"/g, '').trim(), hex: m[2].trim() }));
+                    data.code = data.code || 'N/A'; // Asigna un código por defecto si no existe
 
-                const product = {
-                    title: data.title || 'Sin Título',
-                    image: data.image || '',
-                    image_hover: data.image_hover || data.image, // Usa la imagen principal si no hay de hover
-                    price: data.price ? Number(data.price).toLocaleString('es-CO') : '0',
-                    category: data.category || 'Hombres',
-                    description: data.description || ''
-                };
+                    return data;
+                }
 
-                // --- Creación de la tarjeta HTML ---
+                const productData = parseFrontMatter(productContent);
+                
+                // --- Generar HTML para las Tallas (si existen) ---
+                let sizesHTML = '';
+                if (productData.sizes && productData.sizes.length > 0) {
+                    sizesHTML = `
+                        <p class="w-full text-xs text-gray-700 font-bold mt-2" data-i18n="sizes">Tallas:</p>
+                        <div class="flex flex-wrap justify-center gap-1 mt-1">
+                            ${productData.sizes.map(size => `<div class="border border-gray-400 rounded text-xs px-2 py-0.5">${size}</div>`).join('')}
+                        </div>
+                    `;
+                }
+
+                // --- Generar HTML para los Colores (si existen) ---
+                let colorsHTML = '';
+                if (productData.colors && productData.colors.length > 0) {
+                    colorsHTML = `
+                        <p class="w-full text-xs text-gray-700 font-bold mt-2" data-i18n="colors">Colores:</p>
+                        <div class="flex flex-wrap justify-center gap-2 mt-1">
+                            ${productData.colors.map(color => `<div title="${color.name}"><span style="background-color: ${color.hex};" class="block w-5 h-5 rounded-full border border-gray-400"></span></div>`).join('')}
+                        </div>
+                    `;
+                }
+
+                // --- Creación de la tarjeta HTML COMPLETA ---
                 const productCardHTML = `
                     <div class="group relative">
-                        <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                            <img src="${product.image}" alt="${product.title}" class="w-full h-full object-contain p-0">
-                        </div>
-                        <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-y-auto">
-                            <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                                <img src="${product.image_hover}" alt="Vista detallada de ${product.title}" class="w-full h-full object-contain p-1">
+                        <a href="./productos.html">
+                            <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+                                <img src="${productData.image}" alt="${productData.title}" class="w-full h-full object-contain p-0">
+                            </div>
+                        </a>
+                        <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col items-center p-3 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-y-auto">
+                            <div class="w-full mb-2 aspect-video flex justify-center items-center bg-gray-300 rounded-md">
+                                <img src="${productData.image_hover || productData.image}" alt="Vista detallada de ${productData.title}" class="w-full h-full object-contain p-1">
                             </div>
                             <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
-                            <a href="#" class="mt-auto block w-full text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2 hover:bg-gray-700" data-i18n="more_info">Más Información</a>
+                            <p class="text-xs mt-1"><b data-i18n="code">Código:</b> ${productData.code}</p>
+                            ${sizesHTML}
+                            ${colorsHTML}
+                            <a href="./productos.html" class="mt-auto block w-full text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2 hover:bg-gray-700" data-i18n="more_info">Más Información</a>
                         </div>
                         <div class="mt-3 text-left">
-                            <h3 class="text-sm font-semibold uppercase text-gray-900">${product.title}</h3>
-                            <p class="text-xs text-gray-600 mt-1 normal-case">${product.description}</p>
-                            <p class="text-sm font-bold mt-1 text-black-600">$${product.price} COP</p>
+                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title}</h3>
+                            <p class="text-xs text-gray-600 mt-1 normal-case">${productData.description}</p>
+                            <p class="text-sm font-bold mt-1 text-black-600">$${Number(productData.price || 0).toLocaleString('es-CO')} COP</p>
                         </div>
                     </div>
                 `;
 
                 // --- Inserción en el contenedor correcto ---
-                if (product.category === 'Hombres' && contenedorHombres) {
+                if (productData.category === 'Hombres' && contenedorHombres) {
                     contenedorHombres.innerHTML += productCardHTML;
-                } else if (product.category === 'Mujeres' && contenedorMujeres) {
+                } else if (productData.category === 'Mujeres' && contenedorMujeres) {
                     contenedorMujeres.innerHTML += productCardHTML;
                 }
             }
+
+            // Vuelve a aplicar las traducciones después de añadir los nuevos productos
+            setLanguage(localStorage.getItem('language') || 'es');
+
         } catch (error) {
             console.error("Error cargando los productos:", error);
             const contenedorHombres = document.getElementById('productos-hombres');
@@ -154,5 +195,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ================================================
     const savedLanguage = localStorage.getItem('language') || 'es';
     setLanguage(savedLanguage);
-    cargarProductos(); // <-- Se añade la llamada a la nueva función
+    cargarProductos(); // Se llama a la función para cargar productos
 });
