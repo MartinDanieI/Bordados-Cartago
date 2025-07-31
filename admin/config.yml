@@ -1,24 +1,22 @@
-# admin/config.yml
+# admin/config.yml - VERSIÓN FINAL
 
-# Configuración del backend (cómo se conecta a tu código)
 backend:
   name: git-gateway
-  branch: master 
+  branch: main
   publish_mode: simple
 
-# Dónde se guardarán las fotos de los productos
 media_folder: "img/uploads"
 public_folder: "/img/uploads"
 
-# Define las "colecciones" de contenido. En tu caso, solo una: Productos.
+editor:
+  preview: true
+
 collections:
   - name: "productos"
     label: "Productos"
     folder: "_productos"
     create: true
     slug: "{{slug}}"
-    editor:
-      preview: true
     fields:
       - { label: "Nombre del Producto", name: "title", widget: "string" }
       - { label: "Código del Producto", name: "code", widget: "string" }
@@ -31,9 +29,8 @@ collections:
       - label: "Tallas Disponibles"
         name: "sizes"
         widget: "list"
-        # LA LÍNEA CORREGIDA ES ESTA DE ABAJO. Se añadió name: "size"
         field: { label: "Talla", name: "size", widget: "string" }
-       -label: "Colores Disponibles"
+      - label: "Colores Disponibles"
         name: "colors"
         widget: "list"
         fields:
