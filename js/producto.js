@@ -1,177 +1,102 @@
-document.addEventListener('DOMContentLoaded', () => {
+// js/producto.js
 
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-            const results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    // --- 1. LEER EL "TIQUETE" DE LA URL ---
+    const params = new URLSearchParams(window.location.search);
+    const productSlug = params.get('product');
+
+    if (!productSlug) {
+        document.body.innerHTML = "<h1>Producto no especificado.</h1>";
+        return;
+    }
+
+    try {
+        // --- 2. PEDIR LA INFO DE ESE PRODUCTO AL "PUENTE" ---
+        const response = await fetch(`/.netlify/functions/getProducts?file=${productSlug}.md`);
+        if (!response.ok) throw new Error("El producto no se encontró.");
         
-        async function loadProductDetails() {
-            const productName = getUrlParameter('product');
+        const productContent = await response.text();
 
-            const titleElement = document.getElementById('product-title-page');
-            const mainTitleElement = document.getElementById('product-title');
-            const codeElement = document.getElementById('product-code');
-            const sizesListElement = document.getElementById('sizes-list');
-            const productFabricElement = document.getElementById('product-fabric');
-            const descriptionElement = document.getElementById('product-description');
-            const pricePublicElement = document.getElementById('price-public');
-            const priceWholesaleElement = document.getElementById('price-wholesale');
-            const colorsListElement = document.getElementById('colors-list');
-            const mainImageElement = document.getElementById('clothingImage');
-            const hoverImageElement = document.getElementById('image-hover');
-            const contactButton = document.getElementById('contact-button');
+        // --- 3. USAR EL MISMO "LECTOR" DE DATOS QUE EN MAIN.JS ---
+        function parseFrontMatter(content) {
+            const data = { sizes: [], colors: [] };
+            const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+            if (!frontMatterMatch) return data;
+            
+            const frontMatter = frontMatterMatch[1];
+            const lines = frontMatter.split('\n');
+            let currentList = null;
+            let lastColorObject = null;
 
-            if (!productName) {
-                mainTitleElement.textContent = 'Producto no encontrado.';
-                titleElement.textContent = 'Producto no encontrado.';
-                return;
-            }
-
-            try {
-                const productFilePath = `_productos/${productName}.md`;
-                const response = await fetch(productFilePath);
-
-                if (!response.ok) {
-                    throw new Error(`Error al cargar el producto: ${response.statusText}`);
-                }
-
-                const mdContent = await response.text();
-
-                const yamlDelimiter = '---';
-                const yamlStart = mdContent.indexOf(yamlDelimiter) + yamlDelimiter.length;
-                const yamlEnd = mdContent.indexOf(yamlDelimiter, yamlStart);
-                const yamlContent = mdContent.substring(yamlStart, yamlEnd).trim();
-                const descriptionContent = mdContent.substring(yamlEnd + yamlDelimiter.length).trim();
-
-                const productData = parseYaml(yamlContent);
-
-                titleElement.textContent = productData.title || 'N/A';
-                mainTitleElement.textContent = productData.title || 'N/A';
-                codeElement.textContent = productData.code || 'N/A';
-
-                // Renderizar las tallas
-                if (productData.sizes && Array.isArray(productData.sizes)) {
-                    sizesListElement.textContent = productData.sizes.join(' ');
-                } else {
-                    sizesListElement.textContent = 'N/A';
-                }
-                
-                // Asumo que el material se puede pasar como un campo en el YAML si lo deseas
-                // En tu ejemplo de Markdown no está, pero lo he añadido en la lógica.
-                productFabricElement.textContent = productData.material || 'No especificado';
-                descriptionElement.textContent = productData.description || descriptionContent || 'No hay descripción disponible.';
-
-                // Manejar los precios si existen, si no, mostrar N/A
-                pricePublicElement.textContent = productData.price ? `$${productData.price.toLocaleString('es-CO')}` : 'N/A';
-                // Asumo que el precio al por mayor se puede pasar como un campo en el YAML
-                priceWholesaleElement.textContent = productData.price_wholesale ? `$${productData.price_wholesale.toLocaleString('es-CO')}` : 'N/A';
-                
-                // Cargar imágenes
-                if (productData.image) {
-                    mainImageElement.src = productData.image;
-                } else {
-                    mainImageElement.src = 'https://placehold.co/500x700/cccccc/333333?text=Imagen+no+disponible';
-                }
-                mainImageElement.onerror = () => {
-                    mainImageElement.src = 'https://placehold.co/500x700/cccccc/333333?text=Imagen+no+disponible';
-                };
-                
-                if (productData.image_hover) {
-                    hoverImageElement.src = productData.image_hover;
-                } else {
-                    hoverImageElement.src = 'https://placehold.co/600x400/cccccc/333333?text=Imagen+detalle+no+disponible';
-                }
-                hoverImageElement.onerror = () => {
-                    hoverImageElement.src = 'https://placehold.co/600x400/cccccc/333333?text=Imagen+detalle+no+disponible';
-                };
-
-                // Renderizar los colores
-                colorsListElement.innerHTML = '';
-                if (productData.colors && Array.isArray(productData.colors)) {
-                    productData.colors.forEach(color => {
-                        const div = document.createElement('div');
-                        div.className = 'color-option flex flex-col items-center text-center w-14';
-                        
-                        const spanColor = document.createElement('span');
-                        spanColor.style.backgroundColor = color.hex;
-                        spanColor.className = 'block w-10 h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-200';
-                        spanColor.title = color.name;
-                        
-                        const spanText = document.createElement('span');
-                        spanText.textContent = color.name;
-                        spanText.className = 'text-xs text-gray-600 mt-1';
-                        
-                        div.appendChild(spanColor);
-                        div.appendChild(spanText);
-                        colorsListElement.appendChild(div);
-                    });
-                }
-                
-                const whatsappMessage = encodeURIComponent(`Hola, me interesa el producto "${productData.title}" (Código: ${productData.code}).`);
-                contactButton.href = `https://api.whatsapp.com/send?phone=573154423296&text=${whatsappMessage}`;
-
-            } catch (error) {
-                console.error("Error al cargar los detalles del producto:", error);
-                mainTitleElement.textContent = 'Error al cargar el producto.';
-                titleElement.textContent = 'Error';
-                descriptionElement.textContent = 'No se pudo encontrar la información del producto.';
-                mainImageElement.src = 'https://placehold.co/500x700/cccccc/333333?text=Error';
-                hoverImageElement.src = 'https://placehold.co/600x400/cccccc/333333?text=Error';
-            }
-        }
-
-        function parseYaml(yamlStr) {
-            const data = {};
-            let currentListKey = null;
-
-            yamlStr.split('\n').forEach(line => {
+            lines.forEach((line, index) => {
                 const trimmedLine = line.trim();
-                if (!trimmedLine) return;
-
-                if (trimmedLine.startsWith('-')) {
-                    if (currentListKey === 'colors') {
-                        const match = trimmedLine.match(/- name:\s*(.*?)\s*hex:\s*"(.*?)"/);
-                        if (match) {
-                             data.colors.push({ name: match[1], hex: match[2] });
-                        } else {
-                            // Intenta un formato diferente si el primero falla
-                            const subParts = trimmedLine.slice(1).trim().split(':');
-                            if(subParts[0].trim() === 'name') {
-                                const name = subParts[1].trim().replace(/"/g, '');
-                                const hexLine = line.split('\n')[1].trim();
-                                const hexMatch = hexLine.match(/hex:\s*"(.*?)"/);
-                                if(hexMatch) {
-                                    data.colors.push({name, hex: hexMatch[1]});
-                                }
-                            }
-                        }
-                    } else if (currentListKey === 'sizes') {
-                        const value = trimmedLine.slice(1).trim();
-                        data.sizes.push(value);
+                if (trimmedLine === '') return;
+                const keyMatch = trimmedLine.match(/^([a-zA-Z_]+):(.*)/);
+                if (keyMatch && !trimmedLine.startsWith('-')) {
+                    const key = keyMatch[1];
+                    const value = keyMatch[2].trim();
+                    if (value) {
+                        data[key] = value.replace(/"/g, '');
+                        currentList = null;
+                    } else {
+                        currentList = key;
+                        data[currentList] = [];
                     }
-                } else {
+                } else if (trimmedLine.startsWith('-')) {
+                    if (currentList === 'sizes') {
+                        data.sizes.push(trimmedLine.substring(1).trim());
+                    } else if (currentList === 'colors') {
+                        const nameMatch = lines[index].match(/-\s*name:\s*(.*)/);
+                        const hexMatch = lines[index + 1] ? lines[index + 1].match(/\s*hex:\s*(.*)/) : null;
+                        if (nameMatch && hexMatch) {
+                            let hex = hexMatch[1].trim();
+                            if (!hex.startsWith('#')) hex = '#' + hex;
+                            data.colors.push({ name: nameMatch[1].trim(), hex });
+                        }
+                    }
+                } else if (trimmedLine.includes(':') && currentList === 'colors' && lastColorObject) {
                     const parts = trimmedLine.split(':');
                     const key = parts[0].trim();
                     let value = parts.slice(1).join(':').trim();
-
-                    if (key === 'sizes' || key === 'colors') {
-                        data[key] = [];
-                        currentListKey = key;
-                    } else {
-                        if (value.startsWith('"') && value.endsWith('"')) {
-                            value = value.slice(1, -1);
-                        } else if (value.startsWith("'") && value.endsWith("'")) {
-                            value = value.slice(1, -1);
-                        }
-                        data[key] = isNaN(value) ? value : parseInt(value, 10);
-                        currentListKey = null;
-                    }
+                    if (key === 'hex' && !value.startsWith('#')) value = '#' + value;
+                    lastColorObject[key] = value;
                 }
             });
             return data;
         }
 
-        loadProductDetails();
-    });
+        const productData = parseFrontMatter(productContent);
+        
+        // --- 4. RELLENAR LA PLANTILLA HTML CON LOS DATOS ---
+        document.getElementById('product-title-page').textContent = productData.title;
+        document.getElementById('product-title').textContent = productData.title;
+        document.getElementById('product-code').textContent = productData.code;
+        document.getElementById('clothingImage').src = productData.image;
+        document.getElementById('image-hover').src = productData.image_hover || productData.image;
+        document.getElementById('product-description').textContent = productData.description;
+        document.getElementById('price-public').textContent = `$${Number(productData.price || 0).toLocaleString('es-CO')}`;
+
+        // Renderizar Tallas
+        const sizesContainer = document.getElementById('sizes-list');
+        if (productData.sizes && productData.sizes.length > 0) {
+            sizesContainer.innerHTML = productData.sizes.map(size => 
+                `<div class="size-option border border-gray-300 rounded-md py-2 px-4 cursor-pointer hover:bg-gray-200">${size}</div>`
+            ).join('');
+        }
+        
+        // Renderizar Colores
+        const colorsContainer = document.getElementById('colors-list');
+        if (productData.colors && productData.colors.length > 0) {
+            colorsContainer.innerHTML = productData.colors.map(color => `
+                <div class="color-option border-2 border-transparent rounded-full p-1 cursor-pointer hover:border-gray-400" title="${color.name}">
+                    <span style="background-color: ${color.hex};" class="block w-8 h-8 rounded-full"></span>
+                </div>
+            `).join('');
+        }
+        
+    } catch (error) {
+        console.error("Error al cargar el producto:", error);
+        document.body.innerHTML = `<h1>Error al cargar el producto.</h1><p>${error.message}</p>`;
+    }
+});
