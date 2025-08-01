@@ -70,35 +70,45 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 // --- FUNCIÓN DE LECTURA (NUEVA Y SIMPLIFICADA) ---
                function parseFrontMatter(content) {
-    const data = {};
-    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
-    if (!frontMatterMatch) return data;
-    
-    const frontMatter = frontMatterMatch[1];
-    
-    // Expresiones regulares para cada tipo de dato
-    const simpleRegex = /^(\w+):\s*(.*)$/gm;
-    const sizeRegex = /-\s*(S|M|L|XL|XXL)/g;
-    // ESTA ES LA REGEX CORREGIDA Y MÁS IMPORTANTE
-    const colorRegex = /-\s*name:\s*(.*?)\s*\n\s*hex:\s*#?(.*)/g;
+                    const data = {};
+                    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+                    if (!frontMatterMatch) return data;
+                    const frontMatter = frontMatterMatch[1];
+                    const lines = frontMatter.split('\n');
 
-    // Extraer campos simples
-    let match;
-    while ((match = simpleRegex.exec(frontMatter)) !== null) {
-        data[match[1]] = match[2].trim().replace(/"/g, '');
-    }
+                    let currentList = null;
+                    let lastColorObject = null;
 
-    // Extraer Tallas
-    data.sizes = Array.from(frontMatter.matchAll(sizeRegex), m => m[1]);
-
-    // Extraer Colores (ahora sí funciona)
-    data.colors = Array.from(frontMatter.matchAll(colorRegex), m => ({
-        name: m[1].trim().replace(/"/g, ''),
-        hex: '#' + m[2].trim()
-    }));
-    
-    return data;
-}
+                    lines.forEach((line, index) => {
+                        const trimmedLine = line.trim();
+                        if (trimmedLine === '') return;
+                        const keyMatch = trimmedLine.match(/^([a-zA-Z_]+):(.*)/);
+                        if (keyMatch && !trimmedLine.startsWith('-')) {
+                            const key = keyMatch[1];
+                            const value = keyMatch[2].trim();
+                            if (value) {
+                                data[key] = value.replace(/"/g, '');
+                                currentList = null;
+                            } else {
+                                currentList = key;
+                                data[currentList] = [];
+                            }
+                        } else if (trimmedLine.startsWith('-')) {
+                            if (currentList === 'sizes') {
+                                data.sizes.push(trimmedLine.substring(1).trim());
+                            } else if (currentList === 'colors') {
+                                const nameMatch = lines[index].match(/-\s*name:\s*(.*)/);
+                                const hexMatch = lines[index + 1] ? lines[index + 1].match(/\s*hex:\s*(.*)/) : null;
+                                if (nameMatch && hexMatch) {
+                                    let hex = hexMatch[1].trim();
+                                    if (!hex.startsWith('#')) hex = '#' + hex;
+                                    data.colors.push({ name: nameMatch[1].trim(), hex });
+                                }
+                            }
+                        }
+                    });
+                    return data;
+                }
 
                 const productData = parseFrontMatter(productContent);
                 
