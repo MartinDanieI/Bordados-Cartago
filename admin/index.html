@@ -13,6 +13,7 @@
   <script>
     var h = React.createElement;
 
+    // Creamos la plantilla que clona tu productos.html
     const ProductPreview = createClass({
       render: function() {
         // Obtenemos los datos del formulario en tiempo real
@@ -21,7 +22,7 @@
         const image = this.props.getAsset(data.image);
         const imageHover = this.props.getAsset(data.image_hover);
 
-        // Creamos la estructura de dos columnas que imita tu productos.html
+        // Creamos la estructura de dos columnas
         return h('div', { className: 'p-4 bg-gray-100' },
           h('div', { className: 'product-container grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-lg shadow-lg' },
             
@@ -48,26 +49,6 @@
                 h('div', { className: 'mb-6' },
                   h('h3', { className: 'text-lg font-semibold' }, 'Precios:'),
                   h('p', { className: 'text-2xl font-bold text-green-600' }, '$' + (data.price || 0).toLocaleString('es-CO'))
-                ),
-                // Renderizar Tallas
-                h('div', { className: 'mb-6' },
-                  h('h3', { className: 'text-lg font-semibold mb-3' }, 'Tallas:'),
-                  h('div', { className: 'flex flex-wrap gap-2 text-sm' },
-                    (data.sizes || []).map(function(sizeObj) {
-                      return h('div', { className: 'border border-gray-300 rounded-md py-2 px-4' }, sizeObj.size);
-                    })
-                  )
-                ),
-                // Renderizar Colores
-                h('div', { className: 'mb-6' },
-                  h('h3', { className: 'text-lg font-semibold mb-3' }, 'Colores:'),
-                  h('div', { className: 'flex flex-wrap gap-3' },
-                    (data.colors || []).map(function(colorObj) {
-                      return h('div', { className: 'border-2 border-transparent rounded-full p-1', title: colorObj.name },
-                        h('span', { style: { backgroundColor: colorObj.hex }, className: 'block w-8 h-8 rounded-full' })
-                      );
-                    })
-                  )
                 )
               )
             )
