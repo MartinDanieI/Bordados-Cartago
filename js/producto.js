@@ -90,34 +90,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- FUNCIÓN PARA INICIALIZAR LA LUPA ---
-    function initializeMagnifier() {
-        const imageContainer = document.querySelector('.image-container');
-        const clothingImage = document.getElementById('clothingImage');
-        const magnifier = document.getElementById('magnifier');
+   function initializeMagnifier() {
+    const imageContainer = document.querySelector('.image-container');
+    const clothingImage = document.getElementById('clothingImage');
+    const magnifier = document.getElementById('magnifier');
 
-        if (!imageContainer || !clothingImage || !magnifier) return;
+    // Si alguno de los elementos no existe, no hacemos nada.
+    if (!imageContainer || !clothingImage || !magnifier) return;
 
-        imageContainer.addEventListener('mouseenter', () => {
-            magnifier.classList.add('show');
-            magnifier.style.backgroundImage = `url('${clothingImage.src}')`;
-            magnifier.style.backgroundSize = (clothingImage.naturalWidth * 2) + 'px ' + (clothingImage.naturalHeight * 2) + 'px';
-        });
+    // Asegurarnos que la imagen principal esté cargada para tener sus dimensiones correctas
+    clothingImage.addEventListener('load', () => {
+        // Configuramos el tamaño de la imagen zoomeada dentro de la lupa
+        const zoomFactor = 2; // Puedes cambiar este número para más o menos zoom (ej: 2.5)
+        magnifier.style.backgroundSize = (clothingImage.naturalWidth * zoomFactor) + 'px ' + (clothingImage.naturalHeight * zoomFactor) + 'px';
+    });
 
-        imageContainer.addEventListener('mousemove', (e) => {
-            const rect = imageContainer.getBoundingClientRect();
-            let x = e.clientX - rect.left;
-            let y = e.clientY - rect.top;
-            magnifier.style.left = x + 'px';
-            magnifier.style.top = y + 'px';
-            let bgX = -x * 2 + (magnifier.offsetWidth / 2);
-            let bgY = -y * 2 + (magnifier.offsetHeight / 2);
-            magnifier.style.backgroundPosition = `${bgX}px ${bgY}px`;
-        });
+    imageContainer.addEventListener('mouseenter', () => {
+        magnifier.classList.add('show');
+        // Le ponemos la misma imagen de fondo a la lupa
+        magnifier.style.backgroundImage = `url('${clothingImage.src}')`;
+    });
 
-        imageContainer.addEventListener('mouseleave', () => {
-            magnifier.classList.remove('show');
-        });
-    }
+    imageContainer.addEventListener('mousemove', (e) => {
+        // Obtenemos la posición del cursor RELATIVA a la imagen
+        const rect = clothingImage.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        // Posicionamos el centro de la lupa donde está el cursor
+        magnifier.style.left = x + 'px';
+        magnifier.style.top = y + 'px';
+
+        // --- ESTA ES LA MATEMÁTICA CORREGIDA ---
+        // Calculamos el porcentaje de la posición del cursor sobre la imagen
+        const xPercent = (x / clothingImage.offsetWidth) * 100;
+        const yPercent = (y / clothingImage.offsetHeight) * 100;
+
+        // Movemos el fondo de la lupa a ese mismo porcentaje para que coincida
+        magnifier.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
+    });
+
+    imageContainer.addEventListener('mouseleave', () => {
+        magnifier.classList.remove('show');
+    });
+}
 
     // --- INICIO DE LA EJECUCIÓN ---
     loadProductDetails();
