@@ -16,8 +16,64 @@
 </head>
 <body class="bg-gray-100">
 
-    <header class="fixed top-0 left-0 w-full py-0 px-5 sm:px-5 header-pattern z-50 bg-white shadow-md">
-        </header>
+  <header class="fixed top-0 left-0 w-full py-0 px-5 sm:px-5 header-pattern z-50 bg-white shadow-md">
+    <div class="relative flex items-center justify-between h-16">
+
+        <div class="lg:hidden">
+            <button id="menu-button" class="p-2 text-black focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <nav class="hidden lg:flex items-center space-x-6 text-xs font-medium uppercase text-black">
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_men">Hombres</a>
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_women">Mujeres</a>
+            <a href="#" class="hover:text-gray-600" data-i18n="nav_accessories">Accesorios</a>
+        </nav>
+
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+            <a href="./index.html">
+                <img src="/img/logo.jpg" alt="Logo de Flor Bordados y Calados" class="h-12">
+            </a>
+        </div>
+
+        <div class="flex items-center space-x-4 text-xs font-medium uppercase text-black">
+            <div class="relative">
+                <div class="hidden lg:flex items-center space-x-2">
+                    <button onclick="setLanguage('es')" class="font-bold hover:text-blue-600">ES</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('en')" class="font-bold hover:text-blue-600">EN</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('it')" class="font-bold hover:text-blue-600">IT</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('pt')" class="font-bold hover:text-blue-600">PT</button>
+                </div>
+                <button id="language-menu-button" class="lg:hidden flex items-center space-x-1 font-bold p-2">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="current-lang-mobile">ES</span>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </button>
+                <div id="language-menu" class="hidden absolute top-full right-0 mt-2 w-32 bg-white rounded-md shadow-lg z-20">
+                    <a href="#" onclick="setLanguage('es')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Español</a>
+                    <a href="#" onclick="setLanguage('en')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="#" onclick="setLanguage('it')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Italiano</a>
+                    <a href="#" onclick="setLanguage('pt')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Português</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden lg:hidden">
+        <nav class="flex flex-col space-y-4 pt-2 pb-4 text-sm uppercase text-black">
+            <a href="#" class="hover:text-gray-600 px-2" data-i18n="nav_men">Hombres</a>
+            <a href="#" class="hover:text-gray-600 px-2" data-i18n="nav_women">Mujeres</a>
+            <a href="#" class="hover:text-gray-600 px-2" data-i18n="nav_accessories">Accesorios</a>
+        </nav>
+    </div>
+</header>
 
     <main class="max-w-7xl mx-auto pt-24 px-4 sm:px-6 lg:px-8">
         <div class="product-container grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 bg-white rounded-lg shadow-lg overflow-hidden p-4 lg:p-0">
@@ -66,8 +122,38 @@
         </div>
     </main>
 
-    <footer class="bg-white border-t ...">
-        </footer>
+     <footer class="bg-white border-t border-gray-200 mt-16">
+    <div class="container mx-auto px-10 py-12">
+        <div class="flex flex-col md:flex-row justify-between gap-8 text-xs uppercase">
+            
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_sales_contact">Contacto de Ventas</h4>
+                <div class="space-y-3 normal-case text-gray-600">
+                    <p>Harold Eduardo Bonilla V.<br>315 442 3296</p>
+                    <p>Flor Libia Ruiz<br>311 623 5096</p>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_location">Ubicación</h4>
+                <p class="normal-case text-gray-600">Cra 5 #7-87<br>Cartago Valle, Colombia</p>
+            </div>
+            
+            <div>
+                <h4 class="font-bold mb-4" data-i18n="footer_connect">Conecta</h4>
+                <ul class="space-y-3 normal-case text-gray-600">
+                    <li><a href="#" class="hover:underline">Instagram</a></li>
+                    <li><a href="#" class="hover:underline">Facebook</a></li>
+                    <li><a href="https://api.whatsapp.com/send?phone=573154423296" class="hover:underline">Whatsapp</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-200">
+            <p data-i18n="footer_copyright">© 2025 FLOR BORDADOS Y CALADOS</p>
+        </div>
+    </div>
+</footer>
 
     <script src="/js/main.js"></script>
     <script src="/js/producto.js"></script>
