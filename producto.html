@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOR BORDADOS Y CALADOS</title>
+    <link rel="stylesheet" href="/css/style.css?v=1.1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body class="bg-gray-100">
+
+    <header class="fixed top-0 left-0 w-full ...">
+        </header>
+
+    <main class="max-w-7xl mx-auto pt-24 px-4 sm:px-6 lg:px-8">
+        <div class="product-container grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 bg-white rounded-lg shadow-lg overflow-hidden p-4 lg:p-0">
+            
+            <div class="product-image-section">
+                <img id="product-image" src="https://placehold.co/600x800/f1f5f9/cbd5e1?text=Cargando..." alt="Cargando imagen del producto" class="w-full h-full object-cover">
+            </div>
+
+            <div class="product-details-section flex flex-col p-4 lg:p-8">
+                <div class="mb-6">
+                    <img id="product-image-detail" src="https://placehold.co/600x400/f1f5f9/cbd5e1?text=Cargando..." alt="Detalle del producto" class="w-full h-auto object-cover rounded-md shadow-sm">
+                </div>
+                <div>
+                    <div class="mb-6">
+                        <h2 id="product-title" class="text-3xl font-bold text-gray-800 mb-2">Cargando...</h2>
+                        <p class="text-sm text-gray-600"><b data-i18n="code">Código:</b> <span id="product-code" class="font-semibold">...</span></p>
+                        <p class="text-sm text-gray-600"><b data-i18n="fabric">Tela:</b> <span id="product-fabric" class="font-semibold">...</span></p>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="description">Descripción:</h3>
+                        <p id="product-description" class="text-gray-700 text-sm leading-relaxed">...</p>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="prices">Precios:</h3>
+                        <p class="text-2xl font-bold text-green-600" id="product-price">...</p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3" data-i18n="sizes">Tallas:</h3>
+                        <div id="product-sizes-container" class="flex flex-wrap gap-2 text-sm">
+                            </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3" data-i18n="colors">Colores:</h3>
+                        <div id="product-colors-container" class="flex flex-wrap gap-3">
+                            </div>
+                    </div>
+                    
+                    <a id="whatsapp-button" href="#" target="_blank" rel="noopener noreferrer" class="block w-full lg:w-auto">
+                        <button class="bg-gray-900 text-white py-3 px-6 rounded-md font-semibold hover:bg-gray-800 transition-colors duration-300 w-full">
+                            <span data-i18n="add_to_cart">CONTÁCTENOS</span> <i class="fa-brands fa-whatsapp"></i>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t ...">
+        </footer>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/producto.js"></script>
+</body>
+</html>
