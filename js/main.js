@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <div class="w-full mt-2">
                                 ${colorsHTML}
                                 <div class="w-full mt-2">
-                                    <a href="./productos.html?product=${file.name.replace('.md', '')}" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+                                    <a href="producto.html?product=camisa" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
                                 </div>
                             </div>
                         </div>
