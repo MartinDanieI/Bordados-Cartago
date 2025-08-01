@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="product-title-page">Detalle del Producto</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="./css/style.css?v=1.1">
+    <link rel="stylesheet" href="./css/producto.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50">
+
+    <main class="container mx-auto max-w-6xl p-6 mt-20">
+        
+        <div class="bg-white rounded-lg shadow-xl p-8 flex flex-col lg:flex-row gap-8">
+            
+            <div class="lg:w-1/2 flex flex-col items-center">
+                <img id="product-main-image" src="" alt="Imagen del producto" class="rounded-lg shadow-md w-full h-auto object-cover">
+                </div>
+
+            <div class="lg:w-1/2 flex flex-col justify-center">
+                <h1 id="product-title" class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-2"></h1>
+                <p id="product-code" class="text-gray-500 text-sm mb-4"></p>
+                
+                <div class="description-section mb-6">
+                    <h2 class="text-xl font-bold text-gray-700 mb-2">Descripción</h2>
+                    <p id="product-description" class="text-gray-600 text-base leading-relaxed"></p>
+                </div>
+                
+                <div class="price-section mb-6">
+                    <p class="text-xl font-bold text-gray-800">Precio: <span id="product-price"></span></p>
+                </div>
+
+                <div class="options-section mb-6">
+                    <div class="sizes-container mb-4">
+                        <h3 class="text-lg font-bold text-gray-700 mb-2">Tallas disponibles:</h3>
+                        <div id="sizes-list" class="flex flex-wrap gap-2">
+                            </div>
+                    </div>
+                    
+                    <div class="colors-container">
+                        <h3 class="text-lg font-bold text-gray-700 mb-2">Colores disponibles:</h3>
+                        <div id="colors-list" class="flex flex-wrap gap-2">
+                            </div>
+                    </div>
+                </div>
+                
+                <a href="https://api.whatsapp.com/send?phone=573154423296" target="_blank" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-full text-center transition duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    <i class="fa-brands fa-whatsapp mr-2"></i> CONTACTENOS
+                </a>
+            </div>
+            
+        </div>
+    </main>
+
+    <script src="./js/loadProduct.js"></script>
+
+</body>
+</html>
