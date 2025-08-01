@@ -4,21 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Administrador de Contenido</title>
-  
-  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
   <script>
-    // Le decimos a Decap que vamos a usar las funciones de React que cargamos antes
     var h = React.createElement;
 
-    // Creamos la plantilla de previsualización para la colección "productos"
     const ProductPreview = createClass({
       render: function() {
-        // Obtenemos los datos del formulario en tiempo real
         const entry = this.props.entry;
         const title = entry.getIn(['data', 'title']) || 'Cargando...';
         const image = this.props.getAsset(entry.getIn(['data', 'image']));
@@ -26,36 +20,18 @@
         const description = entry.getIn(['data', 'description']) || '...';
         const code = entry.getIn(['data', 'code']) || '...';
         
-        // Creamos la estructura HTML de la preview usando React
-        // Es una versión simplificada de tu productos.html
+        // Esta es una versión simplificada de tu página de producto para la preview
         return h('div', { style: { padding: '20px', fontFamily: 'Inter, sans-serif' } },
-          h('h2', { className: 'text-3xl font-bold text-gray-800 mb-2' }, title),
-          h('img', { src: image.toString(), style: { width: '100%', margin: '15px 0', borderRadius: '8px' } }),
-          
-          h('div', { className: 'mb-6' },
-            h('p', { className: 'text-sm text-gray-600' }, 
-              h('b', {}, 'Código: '),
-              h('span', { className: 'font-semibold' }, code)
-            )
-          ),
-
-          h('div', { className: 'mb-6' },
-            h('h3', { className: 'text-lg font-semibold text-gray-800 mb-2' }, 'Descripción:'),
-            h('p', { className: 'text-gray-700 text-sm' }, description)
-          ),
-
-          h('div', { className: 'mb-6' },
-            h('h3', { className: 'text-lg font-semibold text-gray-800 mb-2' }, 'Precios:'),
-            h('p', { className: 'text-2xl font-bold text-green-600' }, '$' + price.toLocaleString('es-CO'))
-          ),
-
-          h('button', { className: 'bg-gray-900 text-white py-3 px-6 rounded-md font-semibold' }, 'CONTÁCTENOS')
+          h('h2', { style: { fontSize: '24px', fontWeight: 'bold' } }, title),
+          h('img', { src: image ? image.toString() : '', style: { width: '100%', marginTop: '15px' } }),
+          h('p', { style: { marginTop: '10px' } }, h('b', {}, 'Código: '), code),
+          h('p', { style: { marginTop: '10px' } }, description),
+          h('p', { style: { marginTop: '15px', fontSize: '20px', fontWeight: 'bold' } }, '$' + price.toLocaleString('es-CO'))
         );
       }
     });
 
-    // Registramos la plantilla para que el CMS la use en la colección "productos"
     CMS.registerPreviewTemplate('productos', ProductPreview);
   </script>
-  </body>
+</body>
 </html>
