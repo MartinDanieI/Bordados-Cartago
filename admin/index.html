@@ -9,28 +9,77 @@
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
   <script>
+    // Le decimos a Decap que vamos a usar las funciones de React que él mismo incluye
     var h = React.createElement;
 
+    // Creamos la plantilla de previsualización para la colección "productos"
     const ProductPreview = createClass({
       render: function() {
+        // Obtenemos los datos del formulario en tiempo real
         const entry = this.props.entry;
         const title = entry.getIn(['data', 'title']) || 'Cargando...';
         const image = this.props.getAsset(entry.getIn(['data', 'image']));
+        const imageHover = this.props.getAsset(entry.getIn(['data', 'image_hover']));
         const price = entry.getIn(['data', 'price']) || 0;
         const description = entry.getIn(['data', 'description']) || '...';
         const code = entry.getIn(['data', 'code']) || '...';
-        
-        // Esta es una versión simplificada de tu página de producto para la preview
-        return h('div', { style: { padding: '20px', fontFamily: 'Inter, sans-serif' } },
-          h('h2', { style: { fontSize: '24px', fontWeight: 'bold' } }, title),
-          h('img', { src: image ? image.toString() : '', style: { width: '100%', marginTop: '15px' } }),
-          h('p', { style: { marginTop: '10px' } }, h('b', {}, 'Código: '), code),
-          h('p', { style: { marginTop: '10px' } }, description),
-          h('p', { style: { marginTop: '15px', fontSize: '20px', fontWeight: 'bold' } }, '$' + price.toLocaleString('es-CO'))
+        const fabric = entry.getIn(['data', 'type']) || '100% Lino';
+        const sizes = entry.getIn(['data', 'sizes']) || [];
+        const colors = entry.getIn(['data', 'colors']) || [];
+
+        // Creamos la estructura HTML de la preview usando React
+        // Es un clon de tu productos.html
+        return h('div', { className: 'product-container grid grid-cols-1 lg:grid-cols-2 gap-8 p-4' },
+          // Columna de Imagen
+          h('div', { className: 'product-image-section' },
+            h('img', { src: image ? image.toString() : '', className: 'w-full h-full object-cover' })
+          ),
+          // Columna de Detalles
+          h('div', { className: 'product-details-section flex flex-col' },
+            h('div', { className: 'mb-6' },
+              h('img', { src: imageHover ? imageHover.toString() : (image ? image.toString() : ''), className: 'w-full h-auto object-cover rounded-md shadow-sm' })
+            ),
+            h('div', {},
+              h('div', { className: 'mb-6' },
+                h('h2', { className: 'text-3xl font-bold text-gray-800 mb-2' }, title),
+                h('p', { className: 'text-sm text-gray-600' }, h('b', {}, 'Código: '), h('span', { className: 'font-semibold' }, code)),
+                h('p', { className: 'text-sm text-gray-600' }, h('b', {}, 'Tela: '), h('span', { className: 'font-semibold' }, fabric))
+              ),
+              h('div', { className: 'mb-6' },
+                h('h3', { className: 'text-lg font-semibold text-gray-800 mb-2' }, 'Descripción:'),
+                h('p', { className: 'text-gray-700 text-sm' }, description)
+              ),
+              h('div', { className: 'mb-6' },
+                h('h3', { className: 'text-lg font-semibold text-gray-800 mb-2' }, 'Precios:'),
+                h('p', { className: 'text-2xl font-bold text-green-600' }, '$' + price.toLocaleString('es-CO'))
+              ),
+              // Renderizar Tallas
+              h('div', { className: 'mb-6' },
+                h('h3', { className: 'text-lg font-semibold mb-3' }, 'Tallas:'),
+                h('div', { className: 'flex flex-wrap gap-2 text-sm' },
+                  sizes.map(function(size) {
+                    return h('div', { className: 'border border-gray-300 rounded-md py-2 px-4' }, size);
+                  })
+                )
+              ),
+              // Renderizar Colores
+              h('div', { className: 'mb-6' },
+                h('h3', { className: 'text-lg font-semibold mb-3' }, 'Colores:'),
+                h('div', { className: 'flex flex-wrap gap-3' },
+                  colors.map(function(color) {
+                    return h('div', { className: 'border-2 border-transparent rounded-full p-1', title: color.get('name') },
+                      h('span', { style: { backgroundColor: color.get('hex') }, className: 'block w-8 h-8 rounded-full' })
+                    );
+                  })
+                )
+              )
+            )
+          )
         );
       }
     });
 
+    // Registramos la plantilla para que el CMS la use en la colección "productos"
     CMS.registerPreviewTemplate('productos', ProductPreview);
   </script>
 </body>
