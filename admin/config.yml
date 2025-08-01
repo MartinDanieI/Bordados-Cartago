@@ -3,6 +3,8 @@ backend:
   branch: master # <-- AQUÍ ESTÁ EL CAMBIO
   publish_mode: simple
 
+cms_css: /css/style.css 
+
 media_folder: "img/uploads"
 public_folder: "/img/uploads"
 
