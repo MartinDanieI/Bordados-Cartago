@@ -1,8 +1,8 @@
-// js/producto.js - VERSIÓN FINAL Y COMPLETA
+// js/producto.js (Versión Final y Sincronizada)
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- FUNCIÓN PARA LEER EL "TIQUETE" DE LA URL ---
+    // --- FUNCIÓN PARA LEER EL PARÁMETRO DE LA URL ---
     function getUrlParameter(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
@@ -12,32 +12,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNCIÓN PARA "LEER" LOS DATOS DEL ARCHIVO .MD ---
     function parseFrontMatter(content) {
-        const data = {};
+        const data = { sizes: [], colors: [] };
         const frontMatterMatch = content.match(/---([\s\S]*?)---/);
         if (!frontMatterMatch) return data;
-        
         const frontMatter = frontMatterMatch[1];
         
-        // Expresiones regulares para cada tipo de dato
         const simpleRegex = /^(\w+):\s*(.*)$/gm;
-        const sizeRegex = /-\s*(S|M|L|XL|XXL)/g;
-        const colorRegex = /-\s*name:\s*(.*?)\s*\n\s*hex:\s*#?(.*)/g;
-
-        // Extraer campos simples
         let match;
         while ((match = simpleRegex.exec(frontMatter)) !== null) {
             data[match[1]] = match[2].trim().replace(/"/g, '');
         }
 
-        // Extraer Tallas
-        data.sizes = Array.from(frontMatter.matchAll(sizeRegex), m => m[1]);
-
-        // Extraer Colores
-        data.colors = Array.from(frontMatter.matchAll(colorRegex), m => ({
+        data.sizes = Array.from(frontMatter.matchAll(/-\s*(S|M|L|XL|XXL)/g), m => m[1]);
+        data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*?)\s*\n\s*hex:\s*#?(.*)/g), m => ({
             name: m[1].trim().replace(/"/g, ''),
             hex: '#' + m[2].trim()
         }));
-        
         return data;
     }
 
@@ -57,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const productContent = await response.text();
             const productData = parseFrontMatter(productContent);
 
-            // --- RELLENAR LA PLANTILLA HTML CON LOS DATOS ---
+            // --- RELLENAR LA PLANTILLA CON LOS DATOS (IDS SINCRONIZADOS) ---
             document.title = `${productData.title} | FLOR BORDADOS Y CALADOS`;
             document.getElementById('product-title').textContent = productData.title;
             document.getElementById('product-code').textContent = productData.code;
@@ -76,13 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const colorsContainer = document.getElementById('colors-list');
             if (colorsContainer && productData.colors && productData.colors.length > 0) {
-                colorsContainer.innerHTML = productData.colors.map(color => {
-                    return `
-                        <div class="color-option border-2 border-transparent rounded-full p-1 cursor-pointer hover:border-gray-400" title="${color.name}">
-                            <span style="background-color: ${color.hex};" class="block w-8 h-8 rounded-full"></span>
-                        </div>
-                    `;
-                }).join('');
+                colorsContainer.innerHTML = productData.colors.map(color => `
+                    <div class="color-option border-2 border-transparent rounded-full p-1 cursor-pointer hover:border-gray-400" title="${color.name}">
+                        <span style="background-color: ${color.hex};" class="block w-8 h-8 rounded-full"></span>
+                    </div>
+                `).join('');
             }
 
             initializeMagnifier();
