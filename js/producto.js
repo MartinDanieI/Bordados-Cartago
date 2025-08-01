@@ -1,4 +1,4 @@
-// js/producto.js (Versión Corregida y Unificada)
+// js/producto.js - VERSIÓN FINAL Y COMPLETA
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -10,28 +10,38 @@ document.addEventListener('DOMContentLoaded', () => {
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    // --- FUNCIÓN PARA "LEER" LOS DATOS DEL PRODUCTO ---
+    // --- FUNCIÓN PARA "LEER" LOS DATOS DEL ARCHIVO .MD ---
     function parseFrontMatter(content) {
         const data = {};
         const frontMatterMatch = content.match(/---([\s\S]*?)---/);
         if (!frontMatterMatch) return data;
+        
         const frontMatter = frontMatterMatch[1];
-
+        
+        // Expresiones regulares para cada tipo de dato
         const simpleRegex = /^(\w+):\s*(.*)$/gm;
+        const sizeRegex = /-\s*(S|M|L|XL|XXL)/g;
+        const colorRegex = /-\s*name:\s*(.*?)\s*\n\s*hex:\s*#?(.*)/g;
+
+        // Extraer campos simples
         let match;
         while ((match = simpleRegex.exec(frontMatter)) !== null) {
             data[match[1]] = match[2].trim().replace(/"/g, '');
         }
 
-        data.sizes = Array.from(frontMatter.matchAll(/-\s*(S|M|L|XL|XXL)/g), m => m[1]);
-        data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*?)\s*\n\s*hex:\s*#?(.*)/g), m => ({
+        // Extraer Tallas
+        data.sizes = Array.from(frontMatter.matchAll(sizeRegex), m => m[1]);
+
+        // Extraer Colores
+        data.colors = Array.from(frontMatter.matchAll(colorRegex), m => ({
             name: m[1].trim().replace(/"/g, ''),
             hex: '#' + m[2].trim()
         }));
+        
         return data;
     }
 
-    // --- FUNCIÓN PRINCIPAL PARA CARGAR EL PRODUCTO ---
+    // --- FUNCIÓN PRINCIPAL PARA CARGAR Y MOSTRAR EL PRODUCTO ---
     async function loadProductDetails() {
         const productSlug = getUrlParameter('product');
 
@@ -47,15 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const productContent = await response.text();
             const productData = parseFrontMatter(productContent);
 
-            // --- RELLENAR LA PLANTILLA CON LOS DATOS ---
-            document.getElementById('product-title-page').textContent = productData.title;
+            // --- RELLENAR LA PLANTILLA HTML CON LOS DATOS ---
+            document.title = `${productData.title} | FLOR BORDADOS Y CALADOS`;
             document.getElementById('product-title').textContent = productData.title;
             document.getElementById('product-code').textContent = productData.code;
-            document.getElementById('clothingImage').src = productData.image; // ID Corregido
+            document.getElementById('clothingImage').src = productData.image;
             document.getElementById('image-hover').src = productData.image_hover || productData.image;
             document.getElementById('product-description').textContent = productData.description;
             document.getElementById('price-public').textContent = `$${Number(productData.price || 0).toLocaleString('es-CO')}`;
-            
+            document.getElementById('product-fabric').textContent = productData.type || "100% Lino";
+
             const sizesContainer = document.getElementById('sizes-list');
             if (sizesContainer && productData.sizes && productData.sizes.length > 0) {
                 sizesContainer.innerHTML = productData.sizes.map(size => 
@@ -65,14 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const colorsContainer = document.getElementById('colors-list');
             if (colorsContainer && productData.colors && productData.colors.length > 0) {
-                colorsContainer.innerHTML = productData.colors.map(color => `
-                    <div class="color-option border-2 border-transparent rounded-full p-1 cursor-pointer hover:border-gray-400" title="${color.name}">
-                        <span style="background-color: ${color.hex};" class="block w-8 h-8 rounded-full"></span>
-                    </div>
-                `).join('');
+                colorsContainer.innerHTML = productData.colors.map(color => {
+                    return `
+                        <div class="color-option border-2 border-transparent rounded-full p-1 cursor-pointer hover:border-gray-400" title="${color.name}">
+                            <span style="background-color: ${color.hex};" class="block w-8 h-8 rounded-full"></span>
+                        </div>
+                    `;
+                }).join('');
             }
 
-            // Inicializa la lupa DESPUÉS de cargar la imagen
             initializeMagnifier();
 
         } catch (error) {
@@ -85,13 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function initializeMagnifier() {
         const imageContainer = document.querySelector('.image-container');
         const clothingImage = document.getElementById('clothingImage');
-        // Crea el elemento de la lupa si no existe
-        if (!document.getElementById('magnifier')) {
-            const magnifierDiv = document.createElement('div');
-            magnifierDiv.id = 'magnifier';
-            magnifierDiv.className = 'magnifier';
-            imageContainer.appendChild(magnifierDiv);
-        }
         const magnifier = document.getElementById('magnifier');
 
         if (!imageContainer || !clothingImage || !magnifier) return;
@@ -106,10 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const rect = imageContainer.getBoundingClientRect();
             let x = e.clientX - rect.left;
             let y = e.clientY - rect.top;
-
             magnifier.style.left = x + 'px';
             magnifier.style.top = y + 'px';
-
             let bgX = -x * 2 + (magnifier.offsetWidth / 2);
             let bgY = -y * 2 + (magnifier.offsetHeight / 2);
             magnifier.style.backgroundPosition = `${bgX}px ${bgY}px`;
