@@ -69,46 +69,34 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productContent = await productResponse.text();
 
                 // --- FUNCIÓN DE LECTURA (NUEVA Y SIMPLIFICADA) ---
-               function parseFrontMatter(content) {
-                    const data = {};
-                    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
-                    if (!frontMatterMatch) return data;
-                    const frontMatter = frontMatterMatch[1];
-                    const lines = frontMatter.split('\n');
+              function parseFrontMatter(content) {
+    const data = {};
+    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+    if (!frontMatterMatch) return data;
+    const frontMatter = frontMatterMatch[1];
 
-                    let currentList = null;
-                    let lastColorObject = null;
+    const simpleRegex = /^(\w+):\s*(.*)$/gm;
+    let match;
+    while ((match = simpleRegex.exec(frontMatter)) !== null) {
+        data[match[1]] = match[2].trim().replace(/"/g, '');
+    }
 
-                    lines.forEach((line, index) => {
-                        const trimmedLine = line.trim();
-                        if (trimmedLine === '') return;
-                        const keyMatch = trimmedLine.match(/^([a-zA-Z_]+):(.*)/);
-                        if (keyMatch && !trimmedLine.startsWith('-')) {
-                            const key = keyMatch[1];
-                            const value = keyMatch[2].trim();
-                            if (value) {
-                                data[key] = value.replace(/"/g, '');
-                                currentList = null;
-                            } else {
-                                currentList = key;
-                                data[currentList] = [];
-                            }
-                        } else if (trimmedLine.startsWith('-')) {
-                            if (currentList === 'sizes') {
-                                data.sizes.push(trimmedLine.substring(1).trim());
-                            } else if (currentList === 'colors') {
-                                const nameMatch = lines[index].match(/-\s*name:\s*(.*)/);
-                                const hexMatch = lines[index + 1] ? lines[index + 1].match(/\s*hex:\s*(.*)/) : null;
-                                if (nameMatch && hexMatch) {
-                                    let hex = hexMatch[1].trim();
-                                    if (!hex.startsWith('#')) hex = '#' + hex;
-                                    data.colors.push({ name: nameMatch[1].trim(), hex });
-                                }
-                            }
-                        }
-                    });
-                    return data;
-                }
+    data.sizes = Array.from(frontMatter.matchAll(/-\s*(S|M|L|XL|XXL)/g), m => m[1]);
+    
+    // ESTA ES LA LÓGICA CORREGIDA PARA LEER COLORES
+    data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*?)\s*\n\s*hex:\s*(.*)/g), m => {
+        let hex = m[2].trim().replace(/"/g, '');
+        if (!hex.startsWith('#')) {
+            hex = '#' + hex; // Solo añade el # si falta
+        }
+        return {
+            name: m[1].trim().replace(/"/g, ''),
+            hex: hex
+        };
+    });
+    
+    return data;
+}
 
                 const productData = parseFrontMatter(productContent);
                 
@@ -124,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="flex justify-center items-start space-x-1 mt-1">
                             ${productData.colors.map(color => `
                                 <div class="flex flex-col items-center w-12">
-                                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: ${color.hex}"></span>
+                                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: ${color.hex};"></span>
                                     <p class="text-[10px] mt-1 text-gray-600 leading-tight">${color.name}</p>
                                 </div>
                             `).join('')}
