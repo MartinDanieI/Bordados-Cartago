@@ -15,28 +15,31 @@
 
     const ProductPreview = createClass({
       render: function() {
+        // Obtenemos los datos del formulario en tiempo real
         const entry = this.props.entry;
         const data = entry.getIn(['data']).toJS();
         const image = this.props.getAsset(data.image);
         const imageHover = this.props.getAsset(data.image_hover);
 
-        // Clon de tu productos.html
+        // Creamos la estructura de dos columnas que imita tu productos.html
         return h('div', { className: 'p-4 bg-gray-100' },
-          h('div', { className: 'grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-lg shadow-lg' },
+          h('div', { className: 'product-container grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-lg shadow-lg' },
             
+            // Columna Izquierda: Imagen Principal
             h('div', { className: 'product-image-section' },
               h('img', { src: image ? image.toString() : '' })
             ),
 
+            // Columna Derecha: Detalles
             h('div', { className: 'product-details-section flex flex-col p-8' },
               h('div', { className: 'mb-6' },
                 h('img', { src: imageHover ? imageHover.toString() : (image ? image.toString() : '') })
               ),
               h('div', {},
                 h('div', { className: 'mb-6' },
-                  h('h2', { className: 'text-3xl font-bold' }, data.title || 'Cargando...'),
-                  h('p', {}, h('b', {}, 'Código: '), data.code || '...'),
-                  h('p', {}, h('b', {}, 'Tela: '), data.type || '100% Lino')
+                  h('h2', { className: 'text-3xl font-bold text-gray-800 mb-2' }, data.title || 'Cargando...'),
+                  h('p', { className: 'text-sm' }, h('b', {}, 'Código: '), data.code || '...'),
+                  h('p', { className: 'text-sm' }, h('b', {}, 'Prenda: '), data.type || '...')
                 ),
                 h('div', { className: 'mb-6' },
                   h('h3', { className: 'text-lg font-semibold' }, 'Descripción:'),
@@ -45,6 +48,26 @@
                 h('div', { className: 'mb-6' },
                   h('h3', { className: 'text-lg font-semibold' }, 'Precios:'),
                   h('p', { className: 'text-2xl font-bold text-green-600' }, '$' + (data.price || 0).toLocaleString('es-CO'))
+                ),
+                // Renderizar Tallas
+                h('div', { className: 'mb-6' },
+                  h('h3', { className: 'text-lg font-semibold mb-3' }, 'Tallas:'),
+                  h('div', { className: 'flex flex-wrap gap-2 text-sm' },
+                    (data.sizes || []).map(function(sizeObj) {
+                      return h('div', { className: 'border border-gray-300 rounded-md py-2 px-4' }, sizeObj.size);
+                    })
+                  )
+                ),
+                // Renderizar Colores
+                h('div', { className: 'mb-6' },
+                  h('h3', { className: 'text-lg font-semibold mb-3' }, 'Colores:'),
+                  h('div', { className: 'flex flex-wrap gap-3' },
+                    (data.colors || []).map(function(colorObj) {
+                      return h('div', { className: 'border-2 border-transparent rounded-full p-1', title: colorObj.name },
+                        h('span', { style: { backgroundColor: colorObj.hex }, className: 'block w-8 h-8 rounded-full' })
+                      );
+                    })
+                  )
                 )
               )
             )
@@ -53,6 +76,7 @@
       }
     });
 
+    // Registramos la plantilla
     CMS.registerPreviewTemplate('productos', ProductPreview);
   </script>
 </body>
