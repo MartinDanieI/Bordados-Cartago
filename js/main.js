@@ -69,26 +69,36 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const productContent = await productResponse.text();
 
                 // --- FUNCIÓN DE LECTURA (NUEVA Y SIMPLIFICADA) ---
-                function parseFrontMatter(content) {
-                    const data = {};
-                    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
-                    if (!frontMatterMatch) return data;
-                    const frontMatter = frontMatterMatch[1];
+               function parseFrontMatter(content) {
+    const data = {};
+    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+    if (!frontMatterMatch) return data;
+    
+    const frontMatter = frontMatterMatch[1];
+    
+    // Expresiones regulares para cada tipo de dato
+    const simpleRegex = /^(\w+):\s*(.*)$/gm;
+    const sizeRegex = /-\s*(S|M|L|XL|XXL)/g;
+    // ESTA ES LA REGEX CORREGIDA Y MÁS IMPORTANTE
+    const colorRegex = /-\s*name:\s*(.*?)\s*\n\s*hex:\s*#?(.*)/g;
 
-                    const simpleRegex = /^(\w+):\s*(.*)$/gm;
-                    let match;
-                    while ((match = simpleRegex.exec(frontMatter)) !== null) {
-                        data[match[1]] = match[2].trim().replace(/"/g, '');
-                    }
+    // Extraer campos simples
+    let match;
+    while ((match = simpleRegex.exec(frontMatter)) !== null) {
+        data[match[1]] = match[2].trim().replace(/"/g, '');
+    }
 
-                    data.sizes = Array.from(frontMatter.matchAll(/-\s*(S|M|L|XL|XXL)/g), m => m[1]);
-                    data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*?)\s*\n\s*hex:\s*#?(.*)/g), m => ({
-                        name: m[1].trim().replace(/"/g, ''),
-                        hex: '#' + m[2].trim()
-                    }));
-                    
-                    return data;
-                }
+    // Extraer Tallas
+    data.sizes = Array.from(frontMatter.matchAll(sizeRegex), m => m[1]);
+
+    // Extraer Colores (ahora sí funciona)
+    data.colors = Array.from(frontMatter.matchAll(colorRegex), m => ({
+        name: m[1].trim().replace(/"/g, ''),
+        hex: '#' + m[2].trim()
+    }));
+    
+    return data;
+}
 
                 const productData = parseFrontMatter(productContent);
                 
