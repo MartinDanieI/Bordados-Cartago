@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="flex justify-center items-start space-x-1 mt-1">
                             ${productData.colors.map(color => `
                                 <div class="flex flex-col items-center w-12">
-                                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: ${color.hex};"></span>
+                                    <span class="block w-6 h-6 rounded-full border border-gray-400" style="background-color: ${color.hex}"></span>
                                     <p class="text-[10px] mt-1 text-gray-600 leading-tight">${color.name}</p>
                                 </div>
                             `).join('')}

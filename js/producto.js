@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (colorsContainer && productData.colors && productData.colors.length > 0) {
                 colorsContainer.innerHTML = productData.colors.map(color => `
                     <div class="color-option border-2 border-transparent rounded-full p-1 cursor-pointer hover:border-gray-400" title="${color.name}">
-                        <span style="background-color: ${color.hex};" class="block w-8 h-8 rounded-full"></span>
+                        <span style="background-color: ${color.hex}" class="block w-8 h-8 rounded-full"></span>
                     </div>
                 `).join('');
             }
