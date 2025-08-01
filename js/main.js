@@ -111,33 +111,33 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>`;
                 }
 
-                const productCardHTML = `
-                    <div class="group relative image-background-container">
-                        <a href="producto.html?product=camisa=${file.name.replace('.md', '')}">
-                            <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
-                                <img src="${productData.image || ''}" alt="${productData.title || ''}" class="w-full h-full object-contain p-0">
-                            </div>
-                        </a>
-                        <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
-                            <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
-                                <img src="${productData.image_hover || productData.image}" alt="Vista detallada de ${productData.title || ''}" class="w-full h-full object-contain p-1">
-                            </div>
-                            <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
-                            <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> ${productData.code || 'N/A'}</p>
-                            ${sizesHTML}
-                            <div class="w-full mt-2">
-                                ${colorsHTML}
-                                <div class="w-full mt-2">
-                                    <a href="producto.html?product=camisa" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-3 text-left">
-                            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || ''}</h3>
-                            <p class="text-xs text-gray-600 mt-1 normal-case">${productData.description || ''}</p>
-                            <p class="text-sm font-bold mt-1 text-black-600">$${Number(productData.price || 0).toLocaleString('es-CO')} COP</p>
-                        </div>
-                    </div>`;
+               const productCardHTML = `
+    <div class="group relative image-background-container">
+        <a href="./productos.html?product=${file.name.replace('.md', '')}">
+            <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
+                <img src="${productData.image || ''}" alt="${productData.title || ''}" class="w-full h-full object-contain p-0">
+            </div>
+        </a>
+        <div class="absolute inset-0 bg-gray-200 bg-opacity-95 flex flex-col justify-start items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 invisible group-hover:visible rounded-lg shadow-lg overflow-hidden">
+            <div class="w-full mb-3 aspect-[16/9] flex justify-center items-center bg-gray-300 rounded-md">
+                <img src="${productData.image_hover || productData.image}" alt="Vista detallada de ${productData.title || ''}" class="w-full h-full object-contain p-1">
+            </div>
+            <h4 class="font-bold text-sm uppercase text-gray-800" data-i18n="details">Detalles</h4>
+            <p class="text-xs mt-2 text-gray-700"><b data-i18n="code">Código:</b> ${productData.code || 'N/A'}</p>
+            ${sizesHTML}
+            <div class="w-full mt-2">
+                ${colorsHTML}
+                <div class="w-full mt-2">
+                    <a href="./productos.html?product=${file.name.replace('.md', '')}" class="mt-2 block text-center text-xs font-semibold bg-gray-900 text-white rounded-md py-2" data-i18n="more_info">Más Información</a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 text-left">
+            <h3 class="text-sm font-semibold uppercase text-gray-900">${productData.title || ''}</h3>
+            <p class="text-xs text-gray-600 mt-1 normal-case">${productData.description || ''}</p>
+            <p class="text-sm font-bold mt-1 text-black-600">$${Number(productData.price || 0).toLocaleString('es-CO')} COP</p>
+        </div>
+    </div>`;
 
                 if (productData.category === 'Hombres' && contenedorHombres) {
                     contenedorHombres.innerHTML += productCardHTML;
