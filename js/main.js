@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const productCardHTML = `
                     <div class="group relative image-background-container">
-                        <a href="./productos.html?product=${file.name.replace('.md', '')}">
+                        <a href="producto.html?product=camisa=${file.name.replace('.md', '')}">
                             <div class="bg-gray-100 w-full aspect-[3/4] overflow-hidden rounded-lg shadow-md">
                                 <img src="${productData.image || ''}" alt="${productData.title || ''}" class="w-full h-full object-contain p-0">
                             </div>
