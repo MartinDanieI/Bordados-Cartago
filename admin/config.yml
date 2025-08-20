@@ -24,7 +24,10 @@ collections:
       - { label: "Código del Producto", name: "code", widget: "string" }
       - { label: "Imagen Principal", name: "image", widget: "image" }
       - { label: "Imagen para el Hover", name: "image_hover", widget: "image" }
-      - { label: "Precio (solo el número)", name: "price", widget: "number" }
+      - { label: "Precio (COP)", name: "price", widget: "number" }
+      - { label: "Precio Mayorista (COP)", name: "price_wholesale", widget: "number" }
+      - { label: "Precio (USD)", name: "price_usd", widget: "number" }
+      - { label: "Precio Mayorista (USD)", name: "price_wholesale_usd", widget: "number" }
       - { label: "Categoría", name: "category", widget: "select", options: ["Hombres", "Mujeres"] }
       - { label: "Tipo de Prenda", name: "type", widget: "select", options: ["Camisa", "Pantalón", "Accesorio", "Blusa", "Gabán", "Otro"] }
       - { label: "Descripción Corta", name: "description", widget: "string" }
