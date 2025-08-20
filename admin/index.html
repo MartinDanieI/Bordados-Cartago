@@ -1,64 +1,87 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Administrador de Contenido</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrador de Contenido</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
-  <script>
-    var h = React.createElement;
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    var h = React.createElement;
 
-    // Creamos la plantilla que clona tu productos.html
-    const ProductPreview = createClass({
-      render: function() {
-        // Obtenemos los datos del formulario en tiempo real
-        const entry = this.props.entry;
-        const data = entry.getIn(['data']).toJS();
-        const image = this.props.getAsset(data.image);
-        const imageHover = this.props.getAsset(data.image_hover);
+    // Creamos la plantilla que clona tu productos.html
+    const ProductPreview = createClass({
+      render: function() {
+        // Obtenemos los datos del formulario en tiempo real
+        const entry = this.props.entry;
+        const data = entry.getIn(['data']).toJS();
+        const image = this.props.getAsset(data.image);
+        const imageHover = this.props.getAsset(data.image_hover);
+        const price = data.price || 0;
+        const price_wholesale = data.price_wholesale || 0;
+        const price_usd = data.price_usd || 0;
+        const price_wholesale_usd = data.price_wholesale_usd || 0;
 
-        // Creamos la estructura de dos columnas
-        return h('div', { className: 'p-4 bg-gray-100' },
-          h('div', { className: 'product-container grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-lg shadow-lg' },
-            
-            // Columna Izquierda: Imagen Principal
-            h('div', { className: 'product-image-section' },
-              h('img', { src: image ? image.toString() : '' })
-            ),
+        // Función para formatear precios en COP
+        const formatPriceCOP = (p) => new Intl.NumberFormat('es-CO', { 
+          style: 'currency', 
+          currency: 'COP', 
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0
+        }).format(p);
 
-            // Columna Derecha: Detalles
-            h('div', { className: 'product-details-section flex flex-col p-8' },
-              h('div', { className: 'mb-6' },
-                h('img', { src: imageHover ? imageHover.toString() : (image ? image.toString() : '') })
-              ),
-              h('div', {},
-                h('div', { className: 'mb-6' },
-                  h('h2', { className: 'text-3xl font-bold text-gray-800 mb-2' }, data.title || 'Cargando...'),
-                  h('p', { className: 'text-sm' }, h('b', {}, 'Código: '), data.code || '...'),
-                  h('p', { className: 'text-sm' }, h('b', {}, 'Prenda: '), data.type || '...')
-                ),
-                h('div', { className: 'mb-6' },
-                  h('h3', { className: 'text-lg font-semibold' }, 'Descripción:'),
-                  h('p', { className: 'text-sm' }, data.description || '...')
-                ),
-                h('div', { className: 'mb-6' },
-                  h('h3', { className: 'text-lg font-semibold' }, 'Precios:'),
-                  h('p', { className: 'text-2xl font-bold text-green-600' }, '$' + (data.price || 0).toLocaleString('es-CO'))
-                )
-              )
-            )
-          )
-        );
-      }
-    });
+        // Función para formatear precios en USD
+        const formatPriceUSD = (p) => new Intl.NumberFormat('en-US', { 
+          style: 'currency', 
+          currency: 'USD' 
+        }).format(p);
 
-    // Registramos la plantilla
-    CMS.registerPreviewTemplate('productos', ProductPreview);
-  </script>
+        // Creamos la estructura de dos columnas
+        return h('div', { className: 'p-4 bg-gray-100' },
+          h('div', { className: 'product-container grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-lg shadow-lg' },
+            
+            // Columna Izquierda: Imagen Principal
+            h('div', { className: 'product-image-section' },
+              h('img', { src: image ? image.toString() : '' })
+            ),
+
+            // Columna Derecha: Detalles
+            h('div', { className: 'product-details-section flex flex-col p-8' },
+              h('div', { className: 'mb-6' },
+                h('img', { src: imageHover ? imageHover.toString() : (image ? image.toString() : '') })
+              ),
+              h('div', {},
+                h('div', { className: 'mb-6' },
+                  h('h2', { className: 'text-3xl font-bold text-gray-800 mb-2' }, data.title || 'Cargando...'),
+                  h('p', { className: 'text-sm' }, h('b', {}, 'Código: '), data.code || '...'),
+                  h('p', { className: 'text-sm' }, h('b', {}, 'Prenda: '), data.type || '...')
+                ),
+                h('div', { className: 'mb-6' },
+                  h('h3', { className: 'text-lg font-semibold' }, 'Descripción:'),
+                  h('p', { className: 'text-sm' }, data.description || '...')
+                ),
+                h('div', { className: 'mb-6' },
+                  h('h3', { className: 'text-lg font-semibold' }, 'Precios:'),
+                  h('div', { className: 'flex flex-col space-y-2' },
+                    h('p', { className: 'text-base text-gray-600' }, `Precio Normal: ${formatPriceCOP(price)}`),
+                    h('p', { className: 'text-base text-gray-600' }, `Precio Mayorista: ${formatPriceCOP(price_wholesale)}`),
+                    h('p', { className: 'text-base text-gray-600' }, `Precio Normal (USD): ${formatPriceUSD(price_usd)}`),
+                    h('p', { className: 'text-base text-gray-600' }, `Precio Mayorista (USD): ${formatPriceUSD(price_wholesale_usd)}`)
+                  )
+                )
+              )
+            )
+          )
+        );
+      }
+    });
+
+    // Registramos la plantilla
+    CMS.registerPreviewTemplate('productos', ProductPreview);
+  </script>
 </body>
 </html>
