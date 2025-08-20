@@ -11,5 +11,5 @@ sizes:
   - M
 colors:
   - name: cafe
-    hex: "#D3C5B8"
+    hex: "#6e451eff"
 ---
