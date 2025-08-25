@@ -1,192 +1,140 @@
-// Asegúrate de que este código se ejecuta después de que el DOM esté completamente cargado.
+// js/producto.js (Versión Final y Sincronizada)
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Simulación de los datos del producto.
-    // En una aplicación real, estos datos se cargarían desde un servidor o una base de datos,
-    // posiblemente usando el ID del producto de la URL.
-    const productData = {
-        title: 'Guayabera maga larga / maga corta',
-        code: '2009',
-        fabric: 'Camisa',
-        description: 'Técnica calado plumilla. Una prenda elegante y sofisticada, perfecta para cualquier ocasión.',
-        image: 'https://placehold.co/600x800/F7F7F7/000000?text=Guayabera+Principal', // Placeholder image
-        hoverImage: 'https://placehold.co/600x400/F7F7F7/000000?text=Guayabera+Detalle', // Placeholder for detail image
-        retailPriceCOP: 320000,
-        wholesalePriceCOP: 255000,
-        retailPriceUSD: 80,
-        wholesalePriceUSD: 63,
-        sizes: ['S', 'M', 'L', 'XL'],
-        colors: [
-            { hex: '#F7F7F7', name: 'Blanco Crudo' },
-            { hex: '#5C6F3F', name: 'Verde Oliva' },
-            { hex: '#F47B20', name: 'Naranja' },
-            { hex: '#34C759', name: 'Verde Menta' },
-            { hex: '#6DD400', name: 'Verde Brillante' }
-        ],
-    };
+    // --- FUNCIÓN PARA LEER EL PARÁMETRO DE LA URL ---
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        const results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
-    // Referencias a los elementos del DOM.
-    // Usamos una función auxiliar para obtener elementos y manejar nulos de forma segura.
-    const getElement = (id) => {
-        const element = document.getElementById(id);
-        if (!element) {
-            console.error(`Error: Elemento con ID '${id}' no encontrado en el DOM.`);
+    // --- FUNCIÓN PARA "LEER" LOS DATOS DEL ARCHIVO .MD ---
+  function parseFrontMatter(content) {
+    const data = {};
+    const frontMatterMatch = content.match(/---([\s\S]*?)---/);
+    if (!frontMatterMatch) return data;
+    const frontMatter = frontMatterMatch[1];
+
+    const simpleRegex = /^(\w+):\s*(.*)$/gm;
+    let match;
+    while ((match = simpleRegex.exec(frontMatter)) !== null) {
+        data[match[1]] = match[2].trim().replace(/"/g, '');
+    }
+
+    data.sizes = Array.from(frontMatter.matchAll(/-\s*(S|M|L|XL|XXL)/g), m => m[1]);
+    
+    // ESTA ES LA LÓGICA CORREGIDA PARA LEER COLORES
+    data.colors = Array.from(frontMatter.matchAll(/-\s*name:\s*(.*?)\s*\n\s*hex:\s*(.*)/g), m => {
+        let hex = m[2].trim().replace(/"/g, '');
+        if (!hex.startsWith('#')) {
+            hex = '#' + hex; // Solo añade el # si falta
         }
-        return element;
-    };
+        return {
+            name: m[1].trim().replace(/"/g, ''),
+            hex: hex
+        };
+    });
+    
+    return data;
+}
+    // --- FUNCIÓN PRINCIPAL PARA CARGAR Y MOSTRAR EL PRODUCTO ---
+    async function loadProductDetails() {
+        const productSlug = getUrlParameter('product');
 
-    const productTitlePage = getElement('product-title-page');
-    const clothingImage = getElement('clothingImage');
-    const imageHover = getElement('image-hover');
-    const productTitle = getElement('product-title');
-    const productCode = getElement('product-code');
-    const productFabric = getElement('product-fabric');
-    const productDescription = getElement('product-description');
-    const priceRetail = getElement('price-retail');
-    const priceWholesale = getElement('price-wholesale');
-    const sizesList = getElement('sizes-list');
-    const colorsList = getElement('colors-list');
+        if (!productSlug) {
+            document.body.innerHTML = "<h1>Producto no especificado.</h1>";
+            return;
+        }
 
-    const btnShowCop = getElement('btn-show-cop');
-    const btnShowUsd = getElement('btn-show-usd');
+        try {
+            const response = await fetch(`/.netlify/functions/getProducts?file=${productSlug}.md`);
+            if (!response.ok) throw new Error("El producto no se encontró en el servidor.");
+            
+            const productContent = await response.text();
+            const productData = parseFrontMatter(productContent);
 
-    let currentCurrency = 'COP'; // Estado inicial de la moneda
+            // --- RELLENAR LA PLANTILLA CON LOS DATOS (IDS SINCRONIZADOS) ---
+            document.title = `${productData.title} | FLOR BORDADOS Y CALADOS`;
+            document.getElementById('product-title').textContent = productData.title;
+            document.getElementById('product-code').textContent = productData.code;
+            document.getElementById('clothingImage').src = productData.image;
+            document.getElementById('image-hover').src = productData.image_hover || productData.image;
+            document.getElementById('product-description').textContent = productData.description;
+            document.getElementById('price-public').textContent = `$${Number(productData.price || 0).toLocaleString('es-CO')}`;
+            document.getElementById('product-fabric').textContent = productData.type || "100% Lino";
 
-    /**
-     * Formatea un número como un valor de moneda.
-     * @param {number} price - El precio a formatear.
-     * @param {string} curr - El código de moneda (ej. 'COP', 'USD').
-     * @returns {string} El precio formateado.
-     */
-    const formatPrice = (price, curr) => {
-        return new Intl.NumberFormat('es-CO', {
-            style: 'currency',
-            currency: curr,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        }).format(price);
-    };
-
-    /**
-     * Actualiza la visualización de los precios en la página.
-     */
-    const updatePriceDisplay = () => {
-        if (priceRetail && priceWholesale && btnShowCop && btnShowUsd) {
-            if (currentCurrency === 'COP') {
-                priceRetail.textContent = formatPrice(productData.retailPriceCOP, 'COP');
-                priceWholesale.textContent = formatPrice(productData.wholesalePriceCOP, 'COP');
-                btnShowCop.classList.add('bg-blue-600', 'text-white', 'shadow-md');
-                btnShowCop.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-                btnShowUsd.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
-                btnShowUsd.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-            } else {
-                priceRetail.textContent = formatPrice(productData.retailPriceUSD, 'USD');
-                priceWholesale.textContent = formatPrice(productData.wholesalePriceUSD, 'USD');
-                btnShowUsd.classList.add('bg-blue-600', 'text-white', 'shadow-md');
-                btnShowUsd.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-                btnShowCop.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
-                btnShowCop.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            const sizesContainer = document.getElementById('sizes-list');
+            if (sizesContainer && productData.sizes && productData.sizes.length > 0) {
+                sizesContainer.innerHTML = productData.sizes.map(size => 
+                    `<div class="size-option border border-gray-300 rounded-md py-2 px-4 cursor-pointer hover:bg-gray-200">${size}</div>`
+                ).join('');
             }
-        }
-    };
+            
+            const colorsContainer = document.getElementById('colors-list');
+            if (colorsContainer && productData.colors && productData.colors.length > 0) {
+                colorsContainer.innerHTML = productData.colors.map(color => `
+                    <div class="color-option border-2 border-transparent rounded-full p-1 cursor-pointer hover:border-gray-400" title="${color.name}">
+                        <span style="background-color: ${color.hex};" class="block w-8 h-8 rounded-full"></span>
+                    </div>
+                `).join('');
+            }
 
-    /**
-     * Rellena la información del producto en el DOM.
-     */
-    const populateProductDetails = () => {
-        if (productTitlePage) productTitlePage.textContent = `FLOR BORDADOS Y CALADOS - ${productData.title}`;
-        if (clothingImage) {
-            clothingImage.src = productData.image;
-            clothingImage.alt = productData.title;
-        }
-        if (imageHover) {
-            imageHover.src = productData.hoverImage;
-            imageHover.alt = `Detalle de ${productData.title}`;
-        }
-        if (productTitle) productTitle.textContent = productData.title;
-        if (productCode) productCode.textContent = productData.code;
-        if (productFabric) productFabric.textContent = productData.fabric;
-        if (productDescription) productDescription.textContent = productData.description;
+            initializeMagnifier();
 
-        // Limpiar y añadir tallas
-        if (sizesList) {
-            sizesList.innerHTML = '';
-            productData.sizes.forEach(size => {
-                const span = document.createElement('span');
-                span.className = 'px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm font-medium';
-                span.textContent = size;
-                sizesList.appendChild(span);
-            });
+        } catch (error) {
+            console.error("Error al cargar el producto:", error);
+            document.body.innerHTML = `<h1>Error al cargar el producto.</h1><p>${error.message}</p>`;
         }
-
-        // Limpiar y añadir colores
-        if (colorsList) {
-            colorsList.innerHTML = '';
-            productData.colors.forEach(color => {
-                const div = document.createElement('div');
-                div.className = 'w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm cursor-pointer hover:scale-110 transition-transform duration-200';
-                div.style.backgroundColor = color.hex;
-                div.title = color.name;
-                colorsList.appendChild(div);
-            });
-        }
-
-        updatePriceDisplay(); // Inicializar la visualización de precios
-    };
-
-    // Event Listeners para los botones de moneda
-    if (btnShowCop) {
-        btnShowCop.addEventListener('click', () => {
-            currentCurrency = 'COP';
-            updatePriceDisplay();
-        });
     }
 
-    if (btnShowUsd) {
-        btnShowUsd.addEventListener('click', () => {
-            currentCurrency = 'USD';
-            updatePriceDisplay();
-        });
-    }
+    // --- FUNCIÓN PARA INICIALIZAR LA LUPA ---
+   function initializeMagnifier() {
+    const imageContainer = document.querySelector('.image-container');
+    const clothingImage = document.getElementById('clothingImage');
+    const magnifier = document.getElementById('magnifier');
 
-    // Llamar a la función para poblar los detalles del producto cuando el DOM esté listo
-    populateProductDetails();
+    // Si alguno de los elementos no existe, no hacemos nada.
+    if (!imageContainer || !clothingImage || !magnifier) return;
 
-    // Lógica para el menú móvil y el selector de idioma (manteniendo la que ya tenías)
-    const menuButton = getElement('menu-button');
-    const mobileMenu = getElement('mobile-menu');
-    const languageMenuButton = getElement('language-menu-button');
-    const languageMenu = getElement('language-menu');
-    const currentLangMobile = getElement('current-lang-mobile');
-
-    if (menuButton) {
-        menuButton.addEventListener('click', () => {
-            if (mobileMenu) mobileMenu.classList.toggle('hidden');
-        });
-    }
-
-    if (languageMenuButton) {
-        languageMenuButton.addEventListener('click', (event) => {
-            event.stopPropagation(); // Evitar que el clic cierre inmediatamente el menú
-            if (languageMenu) languageMenu.classList.toggle('hidden');
-        });
-    }
-
-    // Cerrar el menú de idioma si se hace clic fuera de él
-    document.addEventListener('click', (event) => {
-        if (languageMenu && !languageMenu.contains(event.target) && languageMenuButton && !languageMenuButton.contains(event.target)) {
-            languageMenu.classList.add('hidden');
-        }
+    // Asegurarnos que la imagen principal esté cargada para tener sus dimensiones correctas
+    clothingImage.addEventListener('load', () => {
+        // Configuramos el tamaño de la imagen zoomeada dentro de la lupa
+        const zoomFactor = 2; // Puedes cambiar este número para más o menos zoom (ej: 2.5)
+        magnifier.style.backgroundSize = (clothingImage.naturalWidth * zoomFactor) + 'px ' + (clothingImage.naturalHeight * zoomFactor) + 'px';
     });
 
-    // Función para cambiar el idioma (asumiendo que ya tienes una implementación para esto)
-    window.setLanguage = (lang) => {
-        console.log(`Cambiando idioma a: ${lang}`);
-        if (currentLangMobile) {
-            currentLangMobile.textContent = lang.toUpperCase();
-        }
-        // Aquí iría tu lógica real para cambiar el idioma de los textos data-i18n
-        // Por ejemplo, cargar un archivo JSON de traducciones y actualizar el texto de los elementos
-        if (languageMenu) languageMenu.classList.add('hidden'); // Cerrar el menú después de seleccionar
-    };
+    imageContainer.addEventListener('mouseenter', () => {
+        magnifier.classList.add('show');
+        // Le ponemos la misma imagen de fondo a la lupa
+        magnifier.style.backgroundImage = `url('${clothingImage.src}')`;
+    });
+
+    imageContainer.addEventListener('mousemove', (e) => {
+        // Obtenemos la posición del cursor RELATIVA a la imagen
+        const rect = clothingImage.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        // Posicionamos el centro de la lupa donde está el cursor
+        magnifier.style.left = x + 'px';
+        magnifier.style.top = y + 'px';
+
+        // --- ESTA ES LA MATEMÁTICA CORREGIDA ---
+        // Calculamos el porcentaje de la posición del cursor sobre la imagen
+        const xPercent = (x / clothingImage.offsetWidth) * 100;
+        const yPercent = (y / clothingImage.offsetHeight) * 100;
+
+        // Movemos el fondo de la lupa a ese mismo porcentaje para que coincida
+        magnifier.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
+    });
+
+    imageContainer.addEventListener('mouseleave', () => {
+        magnifier.classList.remove('show');
+    });
+}
+
+    // --- INICIO DE LA EJECUCIÓN ---
+    loadProductDetails();
 });
