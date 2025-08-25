@@ -4,7 +4,7 @@ code: "2009"
 image: /img/uploads/imagen1.png
 image_hover: /img/uploads/imagenhover1.png
 price: 320
-price_wholesale: 256
+price_wholesale: 255
 price_usd: 80
 price_wholesale_usd: 63
 category: Hombres
