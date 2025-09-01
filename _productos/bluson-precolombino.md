@@ -1,8 +1,8 @@
 ---
 title: Bluson precolombino
 code: "2021"
-image: /img/uploads/imagen10.png
-image_hover: /img/uploads/imagenhover10.png
+image: /img/uploads/whatsapp-image-2025-09-01-at-11.08.38-am.jpeg
+image_hover: /img/uploads/whatsapp-image-2025-09-01-at-11.09.20-am.jpeg
 price: 350000
 price_wholesale: 280001
 price_usd: 88
