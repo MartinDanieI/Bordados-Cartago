@@ -3,8 +3,8 @@ title: Guayabera maga larga /maga corta
 code: "2010"
 image: /img/uploads/imagen2.png
 image_hover: /img/uploads/imagenhover2.png
-price: 320
-price_wholesale: 256
+price: 320000
+price_wholesale: 256000
 price_usd: 78
 price_wholesale_usd: 62
 category: Hombres
