@@ -64,6 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('product-description').textContent = productData.description;
             document.getElementById('price-public').textContent = `$${Number(productData.price || 0).toLocaleString('es-CO')}`;
             document.getElementById('product-fabric').textContent = productData.type || "100% Lino";
+            document.getElementById('price-public').textContent = `$${Number(productData.price || 0).toLocaleString('es-CO')}`;
+document.getElementById('price-wholesale').textContent = `$${Number(productData.price_wholesale || 0).toLocaleString('es-CO')}`;
+document.getElementById('price-public-usd').textContent = `$${Number(productData.price_usd || 0).toLocaleString('en-US')}`;
+document.getElementById('price-wholesale-usd').textContent = `$${Number(productData.price_wholesale_usd || 0).toLocaleString('en-US')}`;
 
             const sizesContainer = document.getElementById('sizes-list');
             if (sizesContainer && productData.sizes && productData.sizes.length > 0) {

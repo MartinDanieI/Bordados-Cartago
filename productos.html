@@ -97,10 +97,15 @@
                         <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="description">Descripción:</h3>
                         <p id="product-description" class="text-gray-700 text-sm leading-relaxed">...</p>
                     </div>
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="prices">Precios:</h3>
-                        <p id="price-public" class="text-2xl font-bold text-green-600">...</p>
-                    </div>
+                   <div class="mb-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="prices">Precios:</h3>
+    <div class="grid grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-700">
+        <p><span data-i18n="public_price">Precio Público:</span> <span id="price-public" class="font-bold text-green-600 block text-lg">...</span></p>
+        <p><span data-i18n="wholesale_price">Precio Mayorista:</span> <span id="price-wholesale" class="font-bold text-blue-600 block text-lg">...</span></p>
+        <p><span data-i18n="public_price_usd">Precio Público (USD):</span> <span id="price-public-usd" class="font-bold block">...</span></p>
+        <p><span data-i18n="wholesale_price_usd">Precio Mayorista (USD):</span> <span id="price-wholesale-usd" class="font-bold block">...</span></p>
+    </div>
+</div>
                     
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-3" data-i18n="sizes">Tallas:</h3>
