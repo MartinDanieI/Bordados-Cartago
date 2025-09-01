@@ -17,15 +17,15 @@ sizes:
   - XL
 colors:
   - name: Beige
-    hex: "#cdb0b0"
+    hex: "#d3c5b8"
   - name: Verde Militar
-    hex: "#46911b"
+    hex: "#6b8e23"
   - name: Coral
-    hex: "#ca5454"
+    hex: "#ff7f50"
   - name: Verde Agua
-    hex: "#3fe5aa"
+    hex: "#48d1cc"
   - name: Amarillo
-    hex: "#e4de19"
+    hex: "#f5deb3"
   - name: Verde claro
-    hex: "#90ee90"
+    hex: "#a2d4ab"
 ---
