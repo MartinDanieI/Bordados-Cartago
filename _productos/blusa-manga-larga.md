@@ -1,10 +1,10 @@
 ---
-title: Blusa manga larga
+title: "Blusa maga larga "
 code: "2019"
 image: /img/uploads/imagen10.png
 image_hover: /img/uploads/imagenhover10.png
-price: 280
-price_wholesale: 224
+price: 280000
+price_wholesale: 224000
 price_usd: 70
 price_wholesale_usd: 56
 category: Mujeres
