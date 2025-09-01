@@ -1,15 +1,15 @@
 ---
-title: "Blusa maga larga "
-code: "2019"
-image: /img/uploads/imagen10.png
-image_hover: /img/uploads/imagenhover10.png
-price: 280000
-price_wholesale: 224000
-price_usd: 70
-price_wholesale_usd: 56
+title: Chalina cuadrada
+code: "2026"
+image: /img/uploads/whatsapp-image-2025-09-01-at-11.08.57-am.jpeg
+image_hover: /img/uploads/whatsapp-image-2025-09-01-at-11.09.35-am.jpeg
+price: 180000
+price_wholesale: 144001
+price_usd: 45
+price_wholesale_usd: 34
 category: Mujeres
 type: Camisa
-description: Técnica sesgo y patecabra
+description: Técnica calada en cascara de piña y plumilla
 sizes:
   - S
   - M

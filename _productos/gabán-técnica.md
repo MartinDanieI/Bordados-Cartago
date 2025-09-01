@@ -1,15 +1,15 @@
 ---
-title: "Blusa maga larga "
-code: "2019"
-image: /img/uploads/imagen10.png
-image_hover: /img/uploads/imagenhover10.png
-price: 280000
-price_wholesale: 224000
-price_usd: 70
+title: Gabán técnica
+code: "2023"
+image: /img/uploads/whatsapp-image-2025-09-01-at-11.08.42-am.jpeg
+image_hover: /img/uploads/whatsapp-image-2025-09-01-at-11.09.24-am.jpeg
+price: 295000
+price_wholesale: 236000
+price_usd: 74
 price_wholesale_usd: 56
 category: Mujeres
 type: Camisa
-description: Técnica sesgo y patecabra
+description: Calado y bordado en manzanillon
 sizes:
   - S
   - M

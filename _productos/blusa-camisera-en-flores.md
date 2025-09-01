@@ -1,15 +1,15 @@
 ---
-title: "Blusa maga larga "
-code: "2019"
-image: /img/uploads/imagen10.png
-image_hover: /img/uploads/imagenhover10.png
-price: 280000
-price_wholesale: 224000
-price_usd: 70
-price_wholesale_usd: 56
+title: Blusa camisera en flores
+code: "2022"
+image: /img/uploads/whatsapp-image-2025-09-01-at-11.08.52-am.jpeg
+image_hover: /img/uploads/whatsapp-image-2025-09-01-at-11.09.31-am.jpeg
+price: 240000
+price_wholesale: 192000
+price_usd: 60
+price_wholesale_usd: 48
 category: Mujeres
 type: Camisa
-description: Técnica sesgo y patecabra
+description: Técnica bordado rococó
 sizes:
   - S
   - M

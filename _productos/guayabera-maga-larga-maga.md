@@ -1,15 +1,15 @@
 ---
-title: Guayabera maga larga /maga corta
-code: "2009"
-image: /img/uploads/imagen1.png
-image_hover: /img/uploads/imagenhover1.png
+title: Guayabera maga larga /maga
+code: "2011"
+image: /img/uploads/imagen3.png
+image_hover: /img/uploads/imagenhover3.png
 price: 320000
-price_wholesale: 255000
+price_wholesale: 255998
 price_usd: 80
 price_wholesale_usd: 63
 category: Hombres
 type: Camisa
-description: Técnica calado plumilla
+description: corta técnica calado española
 sizes:
   - S
   - M
@@ -19,13 +19,13 @@ colors:
   - name: Beige
     hex: "#f5f5dc"
   - name: Verde Militar
-    hex: "#4b5320"
+    hex: "#5d6532"
   - name: Coral
     hex: "#ff7f50"
   - name: Verde Agua
-    hex: "#00bca1"
+    hex: "#03bb85"
   - name: Amarillo
-    hex: "#e5be01"
+    hex: "#ffde21"
   - name: Verde Claro
-    hex: "#90ee90"
+    hex: "#88e788"
 ---

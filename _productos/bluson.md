@@ -1,12 +1,12 @@
 ---
-title: "Blusa maga larga "
-code: "2019"
-image: /img/uploads/imagen10.png
-image_hover: /img/uploads/imagenhover10.png
-price: 280000
-price_wholesale: 224000
-price_usd: 70
-price_wholesale_usd: 56
+title: Bluson
+code: "2024"
+image: /img/uploads/whatsapp-image-2025-09-01-at-11.09.06-am.jpeg
+image_hover: /img/uploads/whatsapp-image-2025-09-01-at-11.09.43-am.jpeg
+price: 230000
+price_wholesale: 184000
+price_usd: 58
+price_wholesale_usd: 40
 category: Mujeres
 type: Camisa
 description: Técnica sesgo y patecabra
